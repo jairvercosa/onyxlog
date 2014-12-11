@@ -1,0 +1,15 @@
+{% extends "core/base.html"%}
+{% load staticfiles %}
+{% block title %}OnyxLog{% endblock %}
+
+
+{% block content %}
+    <div ng-app="onyxlogApp">
+        {% include 'core/navbar.html' %}
+        <div class="container-fluid" ng-view>
+            <div class="row">
+                <div class="col-xs-12" ng-controller="mainController"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

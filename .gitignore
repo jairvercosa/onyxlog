@@ -52,3 +52,18 @@ docs/_build/
 
 # PyBuilder
 target/
+
+#Mac Files
+*.DS_Store
+
+# Virtualenv files
+lib/
+include/
+share/
+bin/
+
+# Key PEM
+*.pem
+
+# PyCharm Project
+.idea/
