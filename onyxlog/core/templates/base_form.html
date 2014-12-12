@@ -1,0 +1,38 @@
+{% extends "layout.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Início" "/" %}
+{% endblock %}
+
+{% block breadcrumbrender %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+{% block contentDetail %}
+    <div class="page-header">
+        <h2>{% block title %}{% endblock %}</h2>
+        <small>Os campos em <span class="required">azul são obrigatórios</span>.</small>
+    </div>
+    <div class="well box-white bottom-buffer-20">
+        {% block formRender %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block button %}
+<div class="control-group">
+    <div class="col-lg-5 no-padding">
+        <button type="submit" class="btn btn-sm btn-primary" id="btnSend"><i class="glyphicon glyphicon-ok"></i>  Salvar</button>
+        <button class="btn btn-sm btn-outline btn-default" id="btnCancel"><i class="glyphicon glyphicon-remove"></i> Cancelar</button>
+    </div>
+</div>
+<span class="ajaxLoading"><img src="{% static 'img/ajax-loader.gif' %}" /></span>
+{% endblock %}
+
+{% block jsblock %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/jquery.number.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'js/forms.js' %}" ></script>
+{% endblock %}

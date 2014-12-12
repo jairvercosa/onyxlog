@@ -1,0 +1,22 @@
+{% extends "viewport.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+{% endblock %}
+
+{% block title %}Onyxlog{% endblock %}
+ 
+{% block content %}
+    <div class="container-flow">
+        <div class="row top-buffer-60">
+            <div class="col-lg-6 col-lg-offset-3 text-center">
+                <h1>OPS! ACESSO NEGADO</h1>
+                <p class="text-center">Infelizmente seu acesso a este recurso do sistema não está permitido. Caso você realmente precise acessar esta área, por favor entre em contato com o administrador do sistema.</p>
+                <div class="top-buffer-60">
+                    <a href="{{ request.META.HTTP_REFERER }}">Voltar para página anterior</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

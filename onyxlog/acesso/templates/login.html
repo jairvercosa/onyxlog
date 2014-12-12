@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//PT-BR" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html lang="pt-br">
+    {% load staticfiles %}
+    {% load django_bootstrap_breadcrumbs %}
+    {% block breadcrumbs %}
+        {% clear_breadcrumbs %}
+    {% endblock %}
+    <head>     
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Aplicação para controle logístico" />
+        <meta name="author" content="Jair Verçosa - onyxlog.co" />
+
+        <meta name="resource-type" content="document" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta name="classification" content="Internet" />
+        <meta NAME="robots" CONTENT="noindex,nofollow" />
+        <meta name="distribution" content="Global" />
+        <meta name="rating" content="General" />
+        <meta name="doc-class" content="Completed" />
+        <meta name="doc-rights" content="Private" />
+        
+        <meta name="DC.title" content="onyxlog.co" />
+        <link rel="shortcut icon" href="{% static 'img/new_favicon.ico' %}" type="image/x-icon" />
+
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/smoothness/jquery-ui-1.10.4.custom.min.css' %}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/screen.css' %}" />
+        
+        <style type="text/css">
+            .centralize-icon { 
+                width: 96px; 
+                margin: auto; 
+                margin-bottom: 30px;
+            }
+            .centralize-logo { 
+                width: 146px; 
+                margin: auto; 
+            }
+            .centralize-text { 
+                width:225px; 
+                margin: auto; 
+            }
+            .margin-bottom-25 { 
+                width: 374px;;
+                margin: auto;
+                margin-bottom: 25px; 
+            }
+            .margin-bottom-25  h2 {
+                font-size: 30px;
+            }
+            .well { 
+                width: 350px; 
+                margin: auto; 
+                margin-top: 20px; 
+                padding: 40px;
+            }
+            form input {
+                height: 44px !important;
+                border-width: 1px !important;
+                margin-top: 5px;
+            }
+            button {
+                width: 100%;
+            }
+            h1, h4 { 
+                color: #555;
+            }
+            #wrap { padding-top: 110px; min-height: 100%; }
+            .app-title { font-size: 80px; }
+        </style>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="{% static 'js/html5shiv.js' %}"></script>
+          <script src="{% static 'js/respond.min.js' %}"></script>
+        <![endif]-->
+
+        <title>onyxlog.co - Entrar</title>
+    </head>
+    <body>
+        <div id="wrap">
+            <div class="container-flow">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-6 col-lg-push-3">
+                            <div class="margin-bottom-25 text-center">
+                                <h1 class="app-title"><img src="{% static 'img/logo-black.png' %}" /></h1>
+                            </div>
+                            <div class="centralize-text">
+                                <h4>Faça login para prosseguir</h4>
+                            </div>
+                            <div class="well box-white">
+                                <form class="form-horizontal" method="post" action="/acesso/auth/" id="formLogin" onSubmit="return false;">
+                                    {% csrf_token %}
+                                    <input type="hidden" id="urlRedirect" value="{{ urlRedirect }}"/>
+                                    {{ form }}
+                                    <div class="top-buffer-10">
+                                        <button type="submit" class="btn btn-info" id="btnSend">Entrar</button>
+                                    </div><span class="ajaxLoading"><img src="{% static 'img/ajax-loader.gif' %}" /></span>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div class="panel-footer" id="footer">
+            <div class="container-flow">
+                <div class="row">
+                    <p class="muted credit">&copy; 2014 - BSM Engenharia S/A</p>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+        <!-- JavaScript Files -->
+        <script type="text/javascript" src="{% static 'js/jquery-1.8.3.min.js' %} " ></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}" ></script>
+        <script type="text/javascript" src="{% static 'js/app.js' %}" ></script>
+        <script type="text/javascript">
+            $('#btnSend').bind('click',function(){
+                var obj;
+                app.addLoading(obj,true);
+                $('.error-div-form').remove();
+                $.ajax({
+                    type: 'post',
+                    url: $('#formLogin').attr('action'),
+                    data: {
+                        'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val(),
+                        'username' : $('input[name=username]').val(),
+                        'senha' : $('input[name=senha]').val()
+                    },
+                    success: function(response){
+                        app.removeLoading();
+                        try{
+                            var redirect = '';
+                            result = $.parseJSON(response.responseText);
+                            if($('#urlRedirect').val() == '')
+                                redirect = result.urlRedirect;
+                            else
+                                redirect = $('#urlRedirect').val();
+
+                            window.location.href = redirect;
+                        }catch(err){
+                            console.log(err.message+'\n\n'+response);
+                            alert(err.message);
+                        }
+                    },
+                    error: function(response){
+                        app.removeLoading();
+                        try{
+                            var result = $.parseJSON(response.responseText);
+                            if(typeof result.username != 'undefined'){
+                                if(result.username.length > 0){
+                                    $("input[name=username]").after('<div class="error-div-form"><small>'+result.username[0]+'</small></div>');
+                                }
+                            }
+
+                            if(typeof result.senha != 'undefined'){
+                                if(result.senha.length > 0){
+                                    $("input[name=senha]").after('<div class="error-div-form"><small>'+result.senha[0]+'</small></div>');
+                                }
+                            }
+
+                            if(typeof result.csrfmiddlewaretoken != 'undefined'){
+                                $("input[name=csrfmiddlewaretoken]").after('<div class="error-div-form"><small>'+result.csrfmiddlewaretoken+'</small></div>');
+                            }
+                        }catch(err){
+                            console.log(err.message+'\n\n'+response.responseText);
+                            alert('Ocorreu uma falha na operação');
+                        }
+                    }
+                });
+                return false;
+            });
+        </script>
+    </body>
+</html>

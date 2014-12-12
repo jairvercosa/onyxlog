@@ -1,0 +1,16 @@
+{% extends "viewport.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+{% endblock %}
+
+{% block title %}Onyxlog{% endblock %}
+ 
+{% block content %}
+    <div class="container-flow">
+        <div class="row">
+            {% block contentDetail %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

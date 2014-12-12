@@ -1,0 +1,55 @@
+{% extends "base.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+{% endblock %}
+
+{% block headerblock %}
+    <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container-flow">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand"><a href="/" class="navbar-brand"><img src="{% static 'img/logo-black.png' %}" width="120" /></a></a>
+            </div>
+            <div class="navbar-collapse collapse text-size-14">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'cadastros_index' %}">Cadastros</a></li>
+                    <li><a href="">Etiquetas</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                            {{ user.first_name }} {{ user.last_name }}
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'acesso.change_pass_usuario' %}">Trocar Senha</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/acesso/sair/">Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footerblock %}
+    <div class="row">
+        <div class="col-lg-12 no-padding">
+            <ul class="list-unstyled">
+                <li class="pull-right">
+                    <ul class="list-unstyled">
+                        {% if perms.core.core_configurations %}
+                            <li><a href="/core/configuracoes/">Configurações</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li><p class="muted credit">&copy; 2014 - onyxlog.co</p></li>
+            </ul>
+    </div>
+{% endblock %}

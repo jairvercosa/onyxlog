@@ -1,0 +1,28 @@
+{% extends "layout.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block title %}Configurações{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Início" "/" %}
+    {% breadcrumb "Configurações" "/core/configuracoes/" %}
+{% endblock %}
+
+{% block breadcrumbrender %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+{% block contentDetail %}
+    <div class="page-header">
+        <h2>Configurações</h2>
+        <small>Configurações do sistema e cadastros parametrizávis da aplicação.</small>
+    </div>
+    <ul>
+        <li><a href="{% url 'acesso.list_usuario' %}">Usuários</a></li>
+        <li><a href="{% url 'auth.list_group' %}">Grupos de Usuários</a></li>
+        <li><a href="{% url 'auth.list_permission' %}">Permissões do Sistema</a></li>
+        <li><a href="{% url 'core.list_parametros' %}">Parâmetros</a></li>
+    </ul>
+{% endblock %}

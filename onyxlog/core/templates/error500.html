@@ -1,0 +1,19 @@
+{% extends "viewport.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+{% endblock %}
+
+{% block title %}Onyxlog{% endblock %}
+ 
+{% block content %}
+    <div class="container-flow">
+        <div class="row top-buffer-60">
+            <div class="col-lg-6 col-lg-offset-3 text-center">
+                <h1>:( OPS! ESTAMOS COM PROBLEMAS</h1>
+                <p class="text-center">Desculpe isso é vergonhoso pra nós mas, no momento um erro ocorreu no servidor e o recurso que você acessou não está disponível. Nós realmente sentimos muito e estamos trabalhando duro para corrigir o mais rápido possível. Por favor acesse novamente mais tarde e caso o problema volte a acontecer entre em contato com o adminsitrador do sistema. Obrigado.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

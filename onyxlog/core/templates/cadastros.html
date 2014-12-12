@@ -1,0 +1,54 @@
+{% extends "layout.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block title %}Configurações{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Início" "/" %}
+    {% breadcrumb "Configurações" "/core/configuracoes/" %}
+{% endblock %}
+
+{% block breadcrumbrender %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+{% block contentDetail %}
+    <div class="page-header">
+        <h2>Cadastros Básicos</h2>
+        <small>Cadastros simples do sistema.</small>
+    </div>
+    <div class="container-flow">
+        <div class="row">
+            <h4>Oportunidade</h4>
+            <ul>
+                <li><a href="{% url 'oportunidade.list_situacao' %}">Situação</a></li>
+                <li><a href="{% url 'oportunidade.list_tipotemperatura' %}">Tipos de Temperatura</a></li>
+                <li><a href="{% url 'oportunidade.list_receita' %}">Modelo de Receita</a></li>
+                <li><a href="{% url 'oportunidade.list_origem' %}">Origens de Oportunidades</a></li>
+                <li><a href="{% url 'oportunidade.list_questao' %}">Questões</a></li>
+            </ul>
+        </div>
+        <div class="row">
+            <h4>Equipe</h4>
+            <ul>
+                <li><a href="{% url 'equipe.list_tipometa' %}">Tipos de Metas</a></li>
+            </ul>
+        </div>
+        <div class="row">
+            <h4>Cliente</h4>
+            <ul>
+                <li><a href="{% url 'cliente.list_fabricante' %}">Fabricantes de Produtos</a></li>
+                <li><a href="{% url 'cliente.list_produto' %}">Produtos</a></li>
+                <li><a href="{% url 'cliente.list_carteira' %}">Carteiras</a></li>
+            </ul>
+        </div>
+        <div class="row">
+            <h4>Outros</h4>
+            <ul>
+                <li><a href="{% url 'acesso.list_funcao' %}">Funções</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

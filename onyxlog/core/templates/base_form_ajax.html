@@ -1,0 +1,21 @@
+{% load staticfiles %}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h2 class="modal-title">{% block title %}{% endblock %}</h2>
+    <small>Os campos em <span class="required">azul são obrigatórios</span>.</small>
+</div>
+<div class="modal-body formAjaxContent">
+    {% block formRender %}{% endblock %}
+</div>
+<div class="modal-footer">
+    {% block button %}
+    <button type="submit" class="btn btn-sm btn-primary" id="btnSendAjax"><i class="glyphicon glyphicon-ok"></i> Salvar</button><span class="ajaxLoading"><img src="{% static 'img/ajax-loader.gif' %}" /></span>
+    <button class="btn btn-sm btn-outline btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cancelar</button>
+    {% endblock %}
+</div>
+
+{% block jsblock %}
+<script type="text/javascript" src="{% static 'js/jquery.number.min.js' %}" ></script>
+<script type="text/javascript" src="{% static 'js/forms.ajax.js' %}" ></script>
+{% endblock %}

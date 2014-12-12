@@ -1,0 +1,25 @@
+{% extends "layout.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block title %}Onyxlog{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Início" "/" %}
+{% endblock %}
+
+{% block breadcrumbrender %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+{% block contentDetail %}
+    <div class="page-header">
+        <h2>Início</h2>
+    </div>
+    <div class="container">
+        <ul class="main-menu">
+            <li class="icon-box-main icon-box-paper"><a href="{% url 'cadastros_index' %}"><h4>Cadastros</h4></a></li>
+        </ul>
+    </div>
+{% endblock %}
