@@ -1,8 +1,5 @@
 {% extends "layout.html"%}
-{% load staticfiles %}
 {% load django_bootstrap_breadcrumbs %}
-
-{% block title %}Cadastros{% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
@@ -16,16 +13,19 @@
 
 {% block contentDetail %}
     <div class="page-header">
-        <h2>Cadastros</h2>
+        <h2>{% block title %}Cadastros{% endblock %}</h2>
         <small>Cadastros da aplicação.</small>
     </div>
-    <div class="container-flow">
-        <div class="row">
-            <ul>
-                <li><a href="{% url 'cadastros.list_unidade' %}">Unidades de Medida</a></li>
-                <li><a href="{% url 'cadastros.list_grupoproduto' %}">Grupo de Produtos</a></li>
+    <div class="row">
+        <div class="col-lg-2">
+            <ul class="no-padding">
                 <li><a href="{% url 'cadastros.list_produto' %}">Produtos</a></li>
+                <li><a href="{% url 'cadastros.list_grupoproduto' %}">Grupo de Produtos</a></li>
+                <li><a href="{% url 'cadastros.list_unidade' %}">Unidades de Medida</a></li>
+                <li><a href="#">Endereços</a></li>
             </ul>
+        </div>
+        <div class="col-lg-10">
         </div>
     </div>
 {% endblock %}

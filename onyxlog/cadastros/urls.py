@@ -16,6 +16,9 @@ urlpatterns = patterns('',
     url(r'^unidade/$', UnidadeList.as_view(), name='cadastros.list_unidade'),
 
     # produto
+    url(r'^produto/api/fit/$', ApiProdutoFit.as_view(),name='produto.api_produto_fit'),
+    url(r'^produto/api/(?P<pk>\d+)/$', ApiProdutoDetail.as_view(),name='produto.api_produto_detail'),
+
     url(r'^produto/data/$', ProdutoData.as_view(),name='cadastros.list_json_produto'),
     url(r'^produto/formulario/$', ProdutoCreateForm.as_view(),name='cadastros.add_produto'),
     url(r'^produto/(?P<pk>\d+)/$', ProdutoUpdateForm.as_view(),name='cadastros.change_produto'),

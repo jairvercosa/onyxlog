@@ -1,0 +1,25 @@
+{% extends "layout.html"%}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Início" "/" %}
+    {% breadcrumb "Etiquetas" "/etiqueta/" %}
+{% endblock %}
+
+{% block breadcrumbrender %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+{% block contentDetail %}
+    <div class="page-header">
+        <h2>{% block title %}Etiquetas{% endblock %}</h2>
+        <small>Rotinas de geração de etiquetas de identificação.</small>
+    </div>
+    <div class="row">
+        <ul class="no-padding">
+            <li><a href="{% url 'etiqueta.etiqueta_produto' %}">Identificação de Produtos</a></li>
+            <li><a href="#">Identificação de Endereços</a></li>
+        </ul>
+    </div>
+{% endblock %}

@@ -9,7 +9,6 @@ from onyxlog.core.base.core_base_datatable import CoreBaseDatatableView
 from onyxlog.core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel
 from onyxlog.core.mixins.core_mixin_login import CoreMixinLoginRequired
 from onyxlog.core.models.parametro import Parametro
-from onyxlog.core.forms.parametroform import ParametroForm
 
 class ParametrosList(CoreMixinLoginRequired, TemplateView):
     """
@@ -50,7 +49,6 @@ class ParametrosCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinForm):
     model = Parametro
     template_name = 'parametro_form.html'
     success_url = '/'
-    form_class = ParametroForm
 
 class ParametrosUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm):
     """
@@ -59,7 +57,6 @@ class ParametrosUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm):
     model = Parametro
     template_name = 'parametro_form.html'
     success_url = '/'
-    form_class = ParametroForm
 
 class ParametrosDelete(CoreMixinLoginRequired, CoreMixinDel):
     """

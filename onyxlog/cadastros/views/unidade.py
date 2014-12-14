@@ -10,7 +10,6 @@ from onyxlog.core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel
 from onyxlog.core.mixins.core_mixin_login import CoreMixinLoginRequired
 
 from ..models.unidade import Unidade
-from ..forms.unidadeform import UnidadeForm
 
 class UnidadeList(CoreMixinLoginRequired, TemplateView):
     """
@@ -51,7 +50,6 @@ class UnidadeCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinForm):
     model = Unidade
     template_name = 'unidade_form.html'
     success_url = '/'
-    form_class = UnidadeForm
 
 class UnidadeUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm):
     """
@@ -60,7 +58,6 @@ class UnidadeUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm):
     model = Unidade
     template_name = 'unidade_form.html'
     success_url = '/'
-    form_class = UnidadeForm
 
 class UnidadeDelete(CoreMixinLoginRequired, CoreMixinDel):
     """

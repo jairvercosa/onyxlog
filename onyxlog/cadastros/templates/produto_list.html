@@ -21,10 +21,10 @@
     {% csrf_token %}
     <thead>
         <tr>
-            <th width="20%">Código</th>
+            <th width="15%">Código</th>
             <th width="40%">Descrição</th>
-            <th width="5%">Revisão</th>
-            <th width="25%">Grupo</th>
+            <th width="10%">Revisão</th>
+            <th width="25%" class="no_sort">Grupo</th>
             <th width="10%" class="no_sort"></th>
         </tr>
     </thead>
@@ -39,7 +39,8 @@
             grid.fnStartObject({
                 'urlData' : "{% url 'cadastros.list_json_produto' %}",
                 'urlDel'  : '{{ request.get_full_path }}'+'remove/',
-                'tableObj': '#gridlist'
+                'tableObj': '#gridlist',
+                'aaSorting': [[0,]]
             });
         });
     </script>

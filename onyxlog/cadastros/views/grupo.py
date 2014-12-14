@@ -10,7 +10,6 @@ from onyxlog.core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel
 from onyxlog.core.mixins.core_mixin_login import CoreMixinLoginRequired
 
 from ..models.grupo import GrupoProduto
-from ..forms.grupoprodutoform import GrupoProdutoForm
 
 class GrupoProdutoList(CoreMixinLoginRequired, TemplateView):
     """
@@ -51,7 +50,6 @@ class GrupoProdutoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinForm):
     model = GrupoProduto
     template_name = 'grupoproduto_form.html'
     success_url = '/'
-    form_class = GrupoProdutoForm
 
 class GrupoProdutoUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm):
     """
@@ -60,7 +58,6 @@ class GrupoProdutoUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm):
     model = GrupoProduto
     template_name = 'grupoproduto_form.html'
     success_url = '/'
-    form_class = GrupoProdutoForm
 
 class GrupoProdutoDelete(CoreMixinLoginRequired, CoreMixinDel):
     """

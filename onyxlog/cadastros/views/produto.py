@@ -8,9 +8,9 @@ from django.http import Http404
 from onyxlog.core.base.core_base_datatable import CoreBaseDatatableView
 from onyxlog.core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel
 from onyxlog.core.mixins.core_mixin_login import CoreMixinLoginRequired
+from onyxlog.core.mixins.core_mixin_json import JSONResponseMixin
 
 from ..models.produto import Produto
-from ..forms.produtoform import ProdutoForm
 
 class ProdutoList(CoreMixinLoginRequired, TemplateView):
     """
@@ -23,8 +23,8 @@ class ProdutoData(CoreMixinLoginRequired, CoreBaseDatatableView):
     View para renderização da lista
     """
     model = Produto
-    columns = ['codigo', 'desc', 'revisao', 'grupo' 'buttons', ]
-    order_columns = ['codigo', 'nome',]
+    columns = ['codigo', 'desc', 'revisao', 'grupo', 'buttons', ]
+    order_columns = ['codigo', 'desc', 'revisao']
     max_display_length = 500
     url_base_form = '/cadastros/produto/'
     
@@ -44,7 +44,7 @@ class ProdutoData(CoreMixinLoginRequired, CoreBaseDatatableView):
             search_parts = sSearch.split('+')
             qs_params = None
             for part in search_parts:
-                q = Q(codigo__istartswith=part)|Q(desc_istartwith=part)|Q(revisao_istartwith=part)|Q(grupo__nome_istartwith=part)
+                q = Q(codigo__istartswith=part)|Q(desc__istartswith=part)|Q(revisao__istartswith=part)|Q(grupo__nome__istartswith=part)
                 qs_params = qs_params | q if qs_params else q
 
             qs = qs.filter(qs_params)
@@ -58,7 +58,6 @@ class ProdutoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinForm):
     model = Produto
     template_name = 'produto_form.html'
     success_url = '/'
-    form_class = ProdutoForm
 
 class ProdutoUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm):
     """
@@ -67,7 +66,6 @@ class ProdutoUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm):
     model = Produto
     template_name = 'produto_form.html'
     success_url = '/'
-    form_class = ProdutoForm
 
 class ProdutoDelete(CoreMixinLoginRequired, CoreMixinDel):
     """
@@ -75,3 +73,51 @@ class ProdutoDelete(CoreMixinLoginRequired, CoreMixinDel):
     """
     model = Produto
     success_url = '/cadastros/produto/'
+
+class ApiProdutoFit(CoreMixinLoginRequired, JSONResponseMixin, TemplateView):
+    """
+    Retorna em json os produtos
+    """
+    def get(self, request, *args, **kwargs):
+        sSearch = self.request.GET.get('term', None)
+
+        data = []
+        qs = []
+        if sSearch:
+            qs = Produto.objects.all()
+            search_parts = sSearch.split('+')
+            qs_params = None
+            for part in search_parts:
+                q = Q(codigo__istartswith=part)|Q(desc__istartswith=part)|Q(revisao__istartswith=part)|Q(grupo__nome__istartswith=part)
+                qs_params = qs_params | q if qs_params else q
+
+            qs = qs.filter(qs_params)
+
+        for item in qs:
+            data.append({
+                "id": item.pk,
+                "desc": item.codigo + ' - ' + item.desc,
+            })
+
+        context = data
+        
+        return self.render_to_response(context)
+
+class ApiProdutoDetail(CoreMixinLoginRequired, JSONResponseMixin, TemplateView):
+    """
+    Retorna em json os produtos
+    """
+    def get(self, request, *args, **kwargs):
+        produto = Produto.objects.get(pk=self.kwargs.get('pk', None))
+
+        data = {
+            "id": produto.pk,
+            "codigo": produto.codigo,
+            "desc": produto.desc,
+            "unidade": produto.unidade.nome,
+            "fornecedor": produto.fornecedor,
+        }
+        
+        context = data
+        
+        return self.render_to_response(context)
