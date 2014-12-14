@@ -4,9 +4,10 @@ from views.index import Index
 from views.unidade import *
 from views.produto import *
 from views.grupo import *
+from views.planta import *
 
 urlpatterns = patterns('',
-    url(r'^$', Index.as_view(), name='cadastros_index'),
+    url(r'^$', Index.as_view(), name='cadastros.cadastros_index'),
 
     # unidade
     url(r'^unidade/data/$', UnidadeData.as_view(),name='cadastros.list_json_unidade'),
@@ -31,4 +32,11 @@ urlpatterns = patterns('',
     url(r'^grupo-produto/(?P<pk>\d+)/$', GrupoProdutoUpdateForm.as_view(),name='cadastros.change_grupoproduto'),
     url(r'^grupo-produto/remove/(?P<pk>\d+)/$', GrupoProdutoDelete.as_view(),name='cadastros.delete_grupoproduto'),
     url(r'^grupo-produto/$', GrupoProdutoList.as_view(), name='cadastros.list_grupoproduto'),
+
+    # plantas
+    url(r'^planta/data/$', PlantaData.as_view(),name='cadastros.list_json_planta'),
+    url(r'^planta/formulario/$', PlantaCreateForm.as_view(),name='cadastros.add_planta'),
+    url(r'^planta/(?P<pk>\d+)/$', PlantaUpdateForm.as_view(),name='cadastros.change_planta'),
+    url(r'^planta/remove/(?P<pk>\d+)/$', PlantaDelete.as_view(),name='cadastros.delete_planta'),
+    url(r'^planta/$', PlantaList.as_view(), name='cadastros.list_planta'),
 )

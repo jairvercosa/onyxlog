@@ -13,12 +13,20 @@ class UsuarioCreateForm(UserCreationForm):
     
     class Meta:
         model = User
-        exclude = ('last_login','is_staff','date_joined','is_superuser',)
+        exclude = ('last_login','is_staff','date_joined','is_superuser','password', )
 
     def __init__(self, *args, **kwargs):
         super(UsuarioCreateForm, self).__init__(*args, **kwargs)
         self.fields.keyOrder = [
-            'username', 'first_name', 'last_name', 'email', 'is_active', 'password1', 'password2',
+            'username', 
+            'first_name', 
+            'last_name', 
+            'email', 
+            'is_active', 
+            'password1', 
+            'password2', 
+            'groups', 
+            'user_permissions',
         ]
 
     def get_absolute_url(self):

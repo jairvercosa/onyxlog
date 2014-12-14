@@ -18,19 +18,15 @@
         <div class="col-lg-12">
             <ul class="no-padding">
                 <li class="bottom-buffer-20">
-                    <a href="{% url 'cadastros_index' %}">Cadastros</a>
+                    <a href="{% url 'cadastros.cadastros_index' %}">Cadastros</a>
                     <ul>
-                        <li><a href="{% url 'cadastros.list_produto' %}">Produtos</a></li>
-                        <li><a href="{% url 'cadastros.list_grupoproduto' %}">Grupo de Produtos</a></li>
-                        <li><a href="{% url 'cadastros.list_unidade' %}">Unidades de Medida</a></li>
-                        <li><a href="#">Endereços</a></li>
+                        {% include  'cadastros_itens_menu.html' %}
                     </ul>
                 </li>
                 <li class="bottom-buffer-20">
-                    <a href="{% url 'etiqueta_index' %}">Etiquetas</a>
+                    <a href="{% url 'etiqueta.etiqueta_index' %}">Etiquetas</a>
                     <ul>
-                        <li><a href="{% url 'etiqueta.etiqueta_produto' %}">Identificação de Produtos</a></li>
-                        <li><a href="#">Endereçamento</a></li>
+                        {% include 'etiqueta_itens_menu.html' %}
                     </ul>
                 </li>
                 {% if perms.core.core_configurations %}

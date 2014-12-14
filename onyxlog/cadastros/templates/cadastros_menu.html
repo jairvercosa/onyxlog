@@ -19,10 +19,7 @@
     <div class="row">
         <div class="col-lg-2">
             <ul class="no-padding">
-                <li><a href="{% url 'cadastros.list_produto' %}">Produtos</a></li>
-                <li><a href="{% url 'cadastros.list_grupoproduto' %}">Grupo de Produtos</a></li>
-                <li><a href="{% url 'cadastros.list_unidade' %}">Unidades de Medida</a></li>
-                <li><a href="#">Endereços</a></li>
+                {% include 'cadastros_itens_menu.html' %}
             </ul>
         </div>
         <div class="col-lg-10">

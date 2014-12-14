@@ -18,7 +18,7 @@ from ...core.mixins.core_mixin_form import CoreMixin
 from ..forms.etiquetaprodutoform import EtiquetaProdutoForm
 from ...cadastros.models.produto import Produto
 
-class EtiquetaIndex(CoreMixinLoginRequired, TemplateView, CoreMixinDispatch):
+class EtiquetaIndex(CoreMixinLoginRequired, TemplateView):
     template_name = "etiqueta_menu.html"
 
 class EtiquetaProduto(CoreMixinLoginRequired, TemplateView, CoreMixin):
@@ -171,5 +171,71 @@ def pdfEtiquetaProduto(request):
     buffer.close()
     response.write(pdf)
     return response
+
+def pdfEtiquetaEndereco(request):
+    """
+    Gera arquivo PDF das etiquetas solicitadas
+    """
+
+    """if 'dataEtiqueta' not in request.session:
+        redirect('etiqueta.etiqueta_produto')
+    
+    data = request.session['dataEtiqueta']
+    if not data:
+        redirect('etiqueta.etiqueta_produto')
+    
+    request.session.pop('dataEtiqueta')
+    """
+
+    if settings.DEBUG:
+        logo_company = settings.BASE_DIR+'/onyxlog/core/static/img/logo_company_label.jpg'
+        logo_company2 = settings.BASE_DIR+'/onyxlog/core/static/img/logo_company_label2.jpg'
+    else:
+        logo_company = settings.BASE_DIR+'/static/img/logo_company_label.jpg'
+        logo_company2 = settings.BASE_DIR+'/static/img/logo_company_label2.jpg'
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="etiqueta_endereco.pdf"'
+
+    buffer = BytesIO()
+
+    p = canvas.Canvas(buffer, pagesize=(386,283))
+
+    # cabeçalho
+    p.drawImage(logo_company,10,242,)
+    p.drawImage(logo_company2,292,242,)
+    p.drawCentredString(193, 263, "Etiqueta de Identificação.")
+    p.drawCentredString(193, 245, "de Endereço.")
+
+    # label dos detalhes
+    p.setFontSize(7)
+    p.rect(10,205,365,31,fill=0)
+    p.drawString(12,228, "Planta")
+
+    p.rect(10,143,365,62,fill=0)
+    p.drawString(12,197, "Endereço")
+
+    # box do codigo de barras
+    p.rect(10,10,365,133,fill=0)
+    
+    # imprime os dados
+    p.setFontSize(16)
+    p.drawString(22,212, "PLANTA | SITE")
+
+    p.setFontSize(22)
+    p.drawCentredString(193,165, "AAABBBB99999999")
+    
+    # codigo de barras
+    barcode = code128.Code128("AAABBBB99999999",barWidth=0.5*mm,barHeight=30*mm)
+    barcode.drawOn(p,55,35)
+    p.showPage()
+
+    p.save()
+
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response
+
 
 
