@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'onyxlog.acesso',
     'onyxlog.cadastros',
     'onyxlog.etiqueta',
+    'onyxlog.estoque',
 )
 
 MIDDLEWARE_CLASSES = (

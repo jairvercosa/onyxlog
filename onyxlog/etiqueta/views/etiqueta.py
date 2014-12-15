@@ -13,10 +13,11 @@ from django.shortcuts import redirect
 
 from ...core.mixins.core_mixin_login import CoreMixinLoginRequired
 from ...core.mixins.core_mixin_base import CoreMixinDispatch
-from ...core.mixins.core_mixin_form import CoreMixin
+from ...core.mixins.core_mixin_form import CoreMixin, CoreMixinForm
 
-from ..forms.etiquetaprodutoform import EtiquetaProdutoForm
+from ..forms.etiquetaestoqueform import EtiquetaEnderecoForm
 from ...cadastros.models.produto import Produto
+from ...estoque.models.endereco import Endereco
 
 class EtiquetaIndex(CoreMixinLoginRequired, TemplateView):
     template_name = "etiqueta_menu.html"
@@ -26,7 +27,6 @@ class EtiquetaProduto(CoreMixinLoginRequired, TemplateView, CoreMixin):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        #context['form'] =  EtiquetaProdutoForm()
         return self.render_to_response(context)
         
     def post(self, request, *args, **kwargs):
@@ -76,9 +76,6 @@ class EtiquetaProduto(CoreMixinLoginRequired, TemplateView, CoreMixin):
                 'success':False, 
                 'message': 'Nenhum produto foi encontrado.'
             },status=400)
-
-        
-
 
 def pdfEtiquetaProduto(request):
     """
@@ -172,20 +169,56 @@ def pdfEtiquetaProduto(request):
     response.write(pdf)
     return response
 
+class EtiquetaEndereco(CoreMixinLoginRequired, TemplateView, CoreMixinForm):
+    template_name = "etiqueta_endereco.html"
+    success_url = '/'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        context['form'] =  EtiquetaEnderecoForm()
+        return self.render_to_response(context)
+        
+    def post(self, request, *args, **kwargs):
+        form = EtiquetaEnderecoForm(request.POST)
+
+        if not form.is_valid():
+            return self.form_invalid(form)
+        else:
+            dataEnderecos = []
+            print form.data
+            enderecos = Endereco.objects.filter(
+                codigo__gte=Endereco.objects.get(pk=form.data['codigo_de']).codigo,
+                codigo__lte=Endereco.objects.get(pk=form.data['codigo_ate']).codigo,
+            )
+            
+            for item in enderecos:
+                dataEnderecos.append({
+                    "codigo": item.codigo,
+                    "planta": item.planta.nome,
+                })
+
+            request.session['dataEtiquetaEndereco'] = dataEnderecos
+            return self.form_valid(form)
+
+    def form_valid(self, form):
+        response = super(EtiquetaEndereco, self).form_valid(form)
+        return self.render_to_json_reponse(context={'success':True, 'message': 'Etiquetas geradas com sucesso.'},status=200)
+         
+
 def pdfEtiquetaEndereco(request):
     """
     Gera arquivo PDF das etiquetas solicitadas
     """
 
-    """if 'dataEtiqueta' not in request.session:
-        redirect('etiqueta.etiqueta_produto')
+    if 'dataEtiquetaEndereco' not in request.session:
+        redirect('etiqueta.etiqueta_endereco')
     
-    data = request.session['dataEtiqueta']
+    data = request.session['dataEtiquetaEndereco']
     if not data:
-        redirect('etiqueta.etiqueta_produto')
+        redirect('etiqueta.etiqueta_endereco')
     
-    request.session.pop('dataEtiqueta')
-    """
+    request.session.pop('dataEtiquetaEndereco')
+
 
     if settings.DEBUG:
         logo_company = settings.BASE_DIR+'/onyxlog/core/static/img/logo_company_label.jpg'
@@ -201,34 +234,35 @@ def pdfEtiquetaEndereco(request):
 
     p = canvas.Canvas(buffer, pagesize=(386,283))
 
-    # cabeçalho
-    p.drawImage(logo_company,10,242,)
-    p.drawImage(logo_company2,292,242,)
-    p.drawCentredString(193, 263, "Etiqueta de Identificação.")
-    p.drawCentredString(193, 245, "de Endereço.")
+    for endereco in data:
+        # cabeçalho
+        p.drawImage(logo_company,10,242,)
+        p.drawImage(logo_company2,292,242,)
+        p.drawCentredString(193, 263, "Etiqueta de Identificação.")
+        p.drawCentredString(193, 245, "de Endereço.")
 
-    # label dos detalhes
-    p.setFontSize(7)
-    p.rect(10,205,365,31,fill=0)
-    p.drawString(12,228, "Planta")
+        # label dos detalhes
+        p.setFontSize(7)
+        p.rect(10,205,365,31,fill=0)
+        p.drawString(12,228, "Planta")
 
-    p.rect(10,143,365,62,fill=0)
-    p.drawString(12,197, "Endereço")
+        p.rect(10,143,365,62,fill=0)
+        p.drawString(12,197, "Endereço")
 
-    # box do codigo de barras
-    p.rect(10,10,365,133,fill=0)
-    
-    # imprime os dados
-    p.setFontSize(16)
-    p.drawString(22,212, "PLANTA | SITE")
+        # box do codigo de barras
+        p.rect(10,10,365,133,fill=0)
+        
+        # imprime os dados
+        p.setFontSize(16)
+        p.drawString(22,212, endereco['planta'])
 
-    p.setFontSize(22)
-    p.drawCentredString(193,165, "AAABBBB99999999")
-    
-    # codigo de barras
-    barcode = code128.Code128("AAABBBB99999999",barWidth=0.5*mm,barHeight=30*mm)
-    barcode.drawOn(p,55,35)
-    p.showPage()
+        p.setFontSize(22)
+        p.drawCentredString(193,165, endereco['codigo'])
+        
+        # codigo de barras
+        barcode = code128.Code128(endereco['codigo'],barWidth=0.5*mm,barHeight=30*mm)
+        barcode.drawOn(p,55,35)
+        p.showPage()
 
     p.save()
 
@@ -236,6 +270,4 @@ def pdfEtiquetaEndereco(request):
     buffer.close()
     response.write(pdf)
     return response
-
-
 

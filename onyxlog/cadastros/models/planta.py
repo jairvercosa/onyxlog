@@ -5,10 +5,11 @@ class Planta(models.Model):
     """
     Model do cadastro de plantas de operação
     """
+    codigo = models.CharField(verbose_name='Código', max_length=10, blank=False, null=False, default='')
     nome = models.CharField(verbose_name='Nome', max_length=60, blank=False, null=False)
 
     def __unicode__(self):
-        return self.nome
+        return self.codigo + '-' + self.nome
 
     class Meta:
         app_label = 'cadastros'

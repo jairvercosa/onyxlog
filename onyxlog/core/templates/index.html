@@ -24,6 +24,12 @@
                     </ul>
                 </li>
                 <li class="bottom-buffer-20">
+                    <a href="{% url 'estoque.estoque_index' %}">Estoque</a>
+                    <ul>
+                        {% include 'estoque_itens_menu.html' %}
+                    </ul>
+                </li>
+                <li class="bottom-buffer-20">
                     <a href="{% url 'etiqueta.etiqueta_index' %}">Etiquetas</a>
                     <ul>
                         {% include 'etiqueta_itens_menu.html' %}

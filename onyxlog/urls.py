@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^acesso/', include('onyxlog.acesso.urls')),
     url(r'^cadastros/', include('onyxlog.cadastros.urls')),
     url(r'^etiquetas/', include('onyxlog.etiqueta.urls')),
+    url(r'^estoque/', include('onyxlog.estoque.urls')),
     # Examples:
     # url(r'^$', 'onyxlog.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),

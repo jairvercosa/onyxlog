@@ -51,6 +51,9 @@ class PlantaCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinForm):
     template_name = 'planta_form.html'
     success_url = '/'
 
+    class Meta:
+        exclude=[]
+
 class PlantaUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm):
     """
     Formulário de criação
