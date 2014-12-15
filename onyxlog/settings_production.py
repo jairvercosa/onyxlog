@@ -6,9 +6,10 @@ SECRET_KEY = 'iczggaeda^c-kf!t4e0gotd8i^ts0a+_sy=_s7r$^ucu&o3yuv'
 DEBUG = False
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '172.31.23.247', 'www.onyxlog.co', 'onyxlog.co', 'app.onyxlog.co', 'demo.onyxlog.co']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '177.55.104.109', 'bsm.onyxti.com.br', 'bsmlog.onyxti.com.br',]
 
 INSTALLED_APPS = (
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -19,6 +20,9 @@ INSTALLED_APPS = (
     
     'onyxlog.core',
     'onyxlog.acesso',
+    'onyxlog.cadastros',
+    'onyxlog.etiqueta',
+    'onyxlog.estoque',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -37,7 +41,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'onyxlog',                      # Or path to database file if using sqlite3.
         'USER': 'root',
-        'PASSWORD': 'gopipe!@#**',
+        'PASSWORD': '',
         'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '3306',                      # Set to empty string for default
     }
