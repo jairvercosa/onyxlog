@@ -9,7 +9,7 @@ def production():
     env.user = 'root'
     env.password = '2fC@+Zh%tx'
     env.settings = 'production'
-    env.path = '/root/onyxlog'
+    env.path = '/onyxlog'
     env.port = 22
 
 def deploy():
@@ -59,5 +59,5 @@ def restart_server():
             run('kill -8 `cat %(path)s/uwsgi_pid.pid`' % env)
             run('rm -f %(path)s/onyxlog.sock' % env)
             
-        run('uwsgi --ini %(path)s/uwsgi.ini' % env)
+        run('source %(path)s/bin/activate; uwsgi --ini %(path)s/uwsgi.ini' % env)
     run('/etc/init.d/nginx start')

@@ -15,7 +15,7 @@ from ...core.mixins.core_mixin_login import CoreMixinLoginRequired
 from ...core.mixins.core_mixin_base import CoreMixinDispatch
 from ...core.mixins.core_mixin_form import CoreMixin, CoreMixinForm
 
-from ..forms.etiquetaestoqueform import EtiquetaEnderecoForm
+from ..forms.etiquetaestoqueform import EtiquetaProdutoForm, EtiquetaEnderecoForm
 from ...cadastros.models.produto import Produto
 from ...estoque.models.endereco import Endereco
 
