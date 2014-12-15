@@ -96,8 +96,8 @@ def pdfEtiquetaProduto(request):
         logo_company = settings.BASE_DIR+'/onyxlog/core/static/img/logo_company_label.jpg'
         logo_company2 = settings.BASE_DIR+'/onyxlog/core/static/img/logo_company_label2.jpg'
     else:
-        logo_company = settings.BASE_DIR+'/static/img/logo_company_label.jpg'
-        logo_company2 = settings.BASE_DIR+'/static/img/logo_company_label2.jpg'
+        logo_company = settings.STATIC_ROOT+'/img/logo_company_label.jpg'
+        logo_company2 = settings.STATIC_ROOT+'/img/logo_company_label2.jpg'
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="etiquetas_produto.pdf"'
@@ -225,8 +225,8 @@ def pdfEtiquetaEndereco(request):
         logo_company = settings.BASE_DIR+'/onyxlog/core/static/img/logo_company_label.jpg'
         logo_company2 = settings.BASE_DIR+'/onyxlog/core/static/img/logo_company_label2.jpg'
     else:
-        logo_company = settings.BASE_DIR+'/static/img/logo_company_label.jpg'
-        logo_company2 = settings.BASE_DIR+'/static/img/logo_company_label2.jpg'
+        logo_company = settings.STATIC_ROOT+'/img/logo_company_label.jpg'
+        logo_company2 = settings.STATIC_ROOT+'/img/logo_company_label2.jpg'
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="etiqueta_endereco.pdf"'
