@@ -141,14 +141,10 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
      * Valida dados
      */
     $scope.validateData = function(){
-        var empties = $('#table-print-label').find('input').filter(function() { return $(this).val() == ""; });
         var msg = "";
 
         if($scope.products.length==0){
             msg = "Selecione ao menos um produto e clique em adicionar.";
-        }else if(empties.length > 0){
-            msg = "Não podem haver campos vazios."
-            $('#table-print-label').find('input[value=""]').addClass('in-error');
         }
 
         if(msg!=""){

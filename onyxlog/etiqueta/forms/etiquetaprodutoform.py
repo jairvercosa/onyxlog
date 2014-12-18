@@ -15,19 +15,19 @@ class EtiquetaProdutoForm(forms.Form):
         label="Nota Fiscal",
         help_text="Nota fiscal em que o produto foi recebido",
         max_length=9,
-        required=True,
+        required=False,
     )
 
     pedido = forms.CharField(
         label="Pedido",
         max_length=9,
-        required=True,
+        required=False,
     )
     
     dtRecebimento = forms.DateField(
         label="Recebido em",
         help_text="Data do recebimento do produto que será impresso na etiqueta",
-        required=True,
+        required=False,
     )
 
     fornecedor = forms.CharField(
