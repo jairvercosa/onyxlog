@@ -1,0 +1,47 @@
+{% extends "base_list.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block title %}Saldos{% endblock %}
+{% block subtitle %}Lista de Saldo de Endereços{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Estoque" "/estoque/" %}
+    {% breadcrumb "Saldos" "/estoque/saldos/" %}
+{% endblock %}
+
+{% block breadcrumbrender %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+
+{% block tablelist %}
+<table cellpadding="0" cellspacing="0" border="0" class="table  table-striped table-hover datatable" id="gridlist" url-data-source="{% url 'estoque.list_json_saldo' %}">
+    {% csrf_token %}
+    <thead>
+        <tr>
+            <th width="15%" class="no_sort">Endereço</th>
+            <th width="15%" class="no_sort">Produto</th>
+            <th width="0%" class="no_sort">Descrição</th>
+            <th width="20%" class="no_sort">Quant</th>
+            <th width="10%" class="no_sort"></th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot></tfoot>
+</table>
+{% endblock %}
+{% block jsblock %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            grid.fnStartObject({
+                'urlData' : "{% url 'estoque.list_json_saldo' %}",
+                'urlDel'  : '{{ request.get_full_path }}'+'remove/',
+                'tableObj': '#gridlist',
+                'aaSorting': [[0,]]
+            });
+        });
+    </script>
+{% endblock %}
