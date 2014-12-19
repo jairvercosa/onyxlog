@@ -34,3 +34,13 @@
         </div>
     </div>
 {% endblock %}
+{% block jsblock %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/jquery.ui.combobox.js' %}" ></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#id_endereco').combobox();
+            $('#id_produto').combobox();
+        });
+    </script>
+{% endblock %}
