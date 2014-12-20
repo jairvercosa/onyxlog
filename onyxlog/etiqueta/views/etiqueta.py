@@ -104,63 +104,63 @@ def pdfEtiquetaProduto(request):
 
     buffer = BytesIO()
 
-    p = canvas.Canvas(buffer, pagesize=(386,283))
+    p = canvas.Canvas(buffer, pagesize=(378,264))
     
     for produto in data:
         # cabeçalho
-        p.drawImage(logo_company,10,242,)
-        p.drawImage(logo_company2,292,242,)
-        p.drawString(122, 255, "Etiqueta de Identificação.")
+        p.drawImage(logo_company,5,228,)
+        p.drawImage(logo_company2,292,228,)
+        p.drawString(122, 239, "Etiqueta de Identificação.")
 
         # label dos detalhes
         p.setFontSize(7)
-        p.rect(10,205,365,31,fill=0)
-        p.drawString(12,228, "Produto")
+        p.rect(5,191,365,31,fill=0)
+        p.drawString(7,214, "Produto")
 
-        p.rect(10,174,100,31,fill=0)
-        p.drawString(12,197, "UN")
+        p.rect(5,160,100,31,fill=0)
+        p.drawString(7,183, "UN")
 
-        p.rect(110,174,120,31,fill=0)
-        p.drawString(112,197, "Nota")
+        p.rect(105,160,120,31,fill=0)
+        p.drawString(108,183, "Nota")
 
-        p.rect(230,174,145,31,fill=0)
-        p.drawString(232,197, "Pedido")
+        p.rect(225,160,145,31,fill=0)
+        p.drawString(228,183, "Pedido")
 
-        p.rect(10,143,365,31,fill=0)
-        p.drawString(12,166, "Fornecedor")
+        p.rect(5,129,365,31,fill=0)
+        p.drawString(7,152, "Fornecedor")
 
         # box do codigo de barras
-        p.rect(10,10,220,133,fill=0)
+        p.rect(5,10,220,119,fill=0)
         
-        p.rect(230,41,145,102,fill=0)
-        p.drawString(232,135, "Código do Produto")
+        p.rect(225,41,145,88,fill=0)
+        p.drawString(227,121, "Código do Produto")
 
-        p.rect(230,60,145,60,fill=1)
+        p.rect(225,52,145,60,fill=1)
 
-        p.rect(230,10,145,31,fill=0)
-        p.drawString(232,34, "Recebimento")
+        p.rect(225,10,145,31,fill=0)
+        p.drawString(227,34, "Recebimento")
 
 
         # imprime os dados
         p.setFontSize(10)
-        p.drawString(12,212, produto['descricao'])
+        p.drawString(7,200, produto['descricao'])
 
         p.setFontSize(16)
-        p.drawString(22,181, produto['un'])
-        p.drawString(122,181, produto['nota'])
-        p.drawString(242,181, produto['pedido'])
-        p.drawString(22,150, produto['fornecedor'])
+        p.drawString(17,167, produto['un'])
+        p.drawString(108,167, produto['nota'])
+        p.drawString(238,167, produto['pedido'])
+        p.drawString(17,136, produto['fornecedor'])
         p.drawString(242,19, produto['recebimento'])
 
         # codigo de barras
         barcode = code128.Code128(produto['codigo'],barWidth=0.5*mm,barHeight=30*mm)
-        barcode.drawOn(p,5,40)
+        barcode.drawOn(p,5,35)
         p.setFontSize(10)
-        p.drawCentredString(120,20, produto['codigo'])
+        p.drawCentredString(120,15, produto['codigo'])
 
         p.setFontSize(16)
         p.setFillColorRGB(255,255,255)
-        p.drawString(236,85, produto['codigo'])
+        p.drawString(236,75, produto['codigo'])
         p.showPage()
 
     p.save()
@@ -186,7 +186,6 @@ class EtiquetaEndereco(CoreMixinLoginRequired, TemplateView, CoreMixinForm):
             return self.form_invalid(form)
         else:
             dataEnderecos = []
-            print form.data
             enderecos = Endereco.objects.filter(
                 codigo__gte=Endereco.objects.get(pk=form.data['codigo_de']).codigo,
                 codigo__lte=Endereco.objects.get(pk=form.data['codigo_ate']).codigo,
@@ -233,36 +232,36 @@ def pdfEtiquetaEndereco(request):
 
     buffer = BytesIO()
 
-    p = canvas.Canvas(buffer, pagesize=(386,283))
+    p = canvas.Canvas(buffer, pagesize=(378,264))
 
     for endereco in data:
         # cabeçalho
-        p.drawImage(logo_company,10,242,)
-        p.drawImage(logo_company2,292,242,)
-        p.drawCentredString(193, 263, "Etiqueta de Identificação.")
-        p.drawCentredString(193, 245, "de Endereço.")
+        p.drawImage(logo_company,5,228,)
+        p.drawImage(logo_company2,292,228,)
+        p.drawCentredString(193, 249, "Etiqueta de Identificação.")
+        p.drawCentredString(193, 231, "de Endereço.")
 
         # label dos detalhes
         p.setFontSize(7)
-        p.rect(10,205,365,31,fill=0)
-        p.drawString(12,228, "Planta")
+        p.rect(5,191,365,31,fill=0)
+        p.drawString(12,214, "Planta")
 
-        p.rect(10,143,365,62,fill=0)
-        p.drawString(12,197, "Endereço")
+        p.rect(5,129,365,62,fill=0)
+        p.drawString(12,183, "Endereço")
 
         # box do codigo de barras
-        p.rect(10,10,365,133,fill=0)
+        p.rect(5,10,365,119,fill=0)
         
         # imprime os dados
         p.setFontSize(16)
-        p.drawString(22,212, endereco['planta'])
+        p.drawString(17,198, endereco['planta'])
 
         p.setFontSize(22)
-        p.drawCentredString(193,165, endereco['codigo'])
+        p.drawCentredString(188,151, endereco['codigo'])
         
         # codigo de barras
         barcode = code128.Code128(endereco['codigo'],barWidth=0.5*mm,barHeight=30*mm)
-        barcode.drawOn(p,55,35)
+        barcode.drawOn(p,50,35)
         p.showPage()
 
     p.save()
