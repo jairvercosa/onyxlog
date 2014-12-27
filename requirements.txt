@@ -9,6 +9,7 @@ Sphinx==1.2.3
 django-bootstrap-breadcrumbs==0.7.0
 django-bootstrap-toolkit==2.15.0
 django-braces==1.4.0
+django-cors-headers==1.0.0
 django-datatables-view==1.12
 django-debug-toolbar==1.2.2
 django-extensions==1.4.8

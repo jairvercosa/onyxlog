@@ -1,6 +1,7 @@
 # -*- coding: ISO-8859-1 -*-
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.db.models import Q
 from rest_framework import viewsets
 

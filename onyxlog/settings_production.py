@@ -18,6 +18,7 @@ INSTALLED_APPS = (
     'bootstrap_toolkit',
     'django_bootstrap_breadcrumbs',
     'rest_framework',
+    'corsheaders',
     
     'onyxlog.core',
     'onyxlog.acesso',
@@ -28,8 +29,9 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -128,3 +130,6 @@ LOGGING = {
         },
     },
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
