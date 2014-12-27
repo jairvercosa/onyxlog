@@ -41,10 +41,10 @@ class SaldoCustomSerializer(serializers.Serializer):
         enderecos = Endereco.objects.filter(codigo=validated_data.get('endereco'))
         produtos  = Produto.objects.filter(codigo=validated_data.get('produto' ))
         if not enderecos:
-            raise serializers.ValidationError('Endereço inválido.')
+            raise serializers.ValidationError('Endereço inválido %s.' % validated_data.get('endereco'))
         elif not produtos:
-            raise serializers.ValidationError('Produto inválido.')
-        
+            raise serializers.ValidationError('Produto inválido %s.' % validated_data.get('produto'))
+
         endereco = enderecos[0]
         produto  = produtos[0]
         quant    = validated_data.get('quant')
