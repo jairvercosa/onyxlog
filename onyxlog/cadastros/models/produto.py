@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-
-from .grupo import GrupoProduto
-from .unidade import Unidade
+from rest_framework import serializers
+from .grupo import GrupoProduto, GrupoProdutoSerializer
+from .unidade import Unidade, UnidadeSerializer
 
 class Produto(models.Model):
 	"""
@@ -23,3 +23,13 @@ class Produto(models.Model):
 	class Meta:
 		app_label = 'cadastros'
 
+class ProdutoSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializador
+    """
+    unidade = UnidadeSerializer()
+    grupo = GrupoProdutoSerializer()
+
+    class Meta:
+        model = Produto
+        fields = ('codigo', 'fornecedor', 'desc', 'desclong', 'revisao', 'unidade', 'grupo', )

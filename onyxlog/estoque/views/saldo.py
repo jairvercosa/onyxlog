@@ -2,14 +2,13 @@
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.db.models import Q
-from django.shortcuts import redirect
-from django.http import Http404
+from rest_framework import viewsets
 
 from ...core.base.core_base_datatable import CoreBaseDatatableView
 from ...core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel
 from ...core.mixins.core_mixin_login import CoreMixinLoginRequired
 
-from ..models.saldo import Saldo
+from ..models.saldo import Saldo, SaldoSerializer, SaldoCustomSerializer
 
 class SaldoList(CoreMixinLoginRequired, TemplateView):
     """
@@ -78,3 +77,7 @@ class SaldoDelete(CoreMixinLoginRequired, CoreMixinDel):
     """
     model = Saldo
     success_url = '/estoque/saldos/'
+
+class SaldoViewSet(viewsets.ModelViewSet):
+    queryset = Saldo.objects.all()
+    serializer_class = SaldoCustomSerializer

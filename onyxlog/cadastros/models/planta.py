@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from rest_framework import serializers
 
 class Planta(models.Model):
     """
@@ -13,3 +14,11 @@ class Planta(models.Model):
 
     class Meta:
         app_label = 'cadastros'
+
+class PlantaSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializador
+    """
+    class Meta:
+        model = Planta
+        fields = ('codigo', 'nome', )

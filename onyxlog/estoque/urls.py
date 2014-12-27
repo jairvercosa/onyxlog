@@ -1,8 +1,12 @@
 from django.conf.urls import patterns, include, url
+from rest_framework import routers
 
 from views.index import *
 from views.endereco import *
 from views.saldo import *
+
+router = routers.DefaultRouter()
+router.register(r'saldo',SaldoViewSet)
 
 urlpatterns = patterns('',
     url(r'^$', Index.as_view(), name='estoque.estoque_index'),
@@ -22,5 +26,8 @@ urlpatterns = patterns('',
     url(r'^saldo/$', SaldoList.as_view(), name='estoque.list_saldo'),
 
     url(r'^endereco/automatico/$', EnderecoAuto.as_view(), name='estoque.endereco_auto'),
+
+    # api
+    url(r'^api/', include(router.urls))
     
 )

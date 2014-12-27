@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from ...cadastros.models.planta import Planta
+from rest_framework import serializers
+from ...cadastros.models.planta import Planta, PlantaSerializer
 
 class Endereco(models.Model):
     """
@@ -14,3 +15,13 @@ class Endereco(models.Model):
 
     class Meta:
         app_label = 'estoque'
+
+class EnderecoSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializador
+    """
+    planta = PlantaSerializer()
+
+    class Meta:
+        model = Endereco
+        fields = ('planta', 'codigo', )
