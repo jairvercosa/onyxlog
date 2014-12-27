@@ -17,6 +17,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap_toolkit',
     'django_bootstrap_breadcrumbs',
+    'rest_framework',
     
     'onyxlog.core',
     'onyxlog.acesso',
@@ -79,6 +80,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request",
 )
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    #'DEFAULT_PERMISSION_CLASSES': [
+    #    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    #]
+}
 
 LOGGING = {
     'version': 1,
