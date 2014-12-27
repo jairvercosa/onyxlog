@@ -2,6 +2,7 @@
 from django.db import models
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from rest_framework.utils.serializer_helpers import ReturnDict
 
 from ...cadastros.models.produto import Produto, ProdutoSerializer
 from .endereco import Endereco, EnderecoSerializer
@@ -37,8 +38,15 @@ class SaldoCustomSerializer(serializers.Serializer):
     quant    = serializers.DecimalField(max_digits=19, decimal_places=4)
 
     def create(self, validated_data):
-        endereco = get_object_or_404(Endereco,codigo=validated_data.get('endereco'))
-        produto  = get_object_or_404(Produto ,codigo=validated_data.get('produto' ))
+        enderecos = Endereco.objects.filter(codigo=validated_data.get('endereco'))
+        produtos  = Produto.objects.filter(codigo=validated_data.get('produto' ))
+        if not enderecos:
+            raise serializers.ValidationError('Endereço inválido.')
+        elif not produtos:
+            raise serializers.ValidationError('Produto inválido.')
+        
+        endereco = enderecos[0]
+        produto  = produtos[0]
         quant    = validated_data.get('quant')
 
         saldos = Saldo.objects.filter(endereco=endereco, produto=produto)
