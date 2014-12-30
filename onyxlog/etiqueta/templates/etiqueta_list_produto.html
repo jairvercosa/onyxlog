@@ -68,13 +68,13 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="x in products">
-                            <td ngCloak>{$ x.codigo $}</td>
-                            <td ngCloak>{$ x.desc $}</td>
-                            <td ngCloak>{$ x.un $}</td>
-                            <td><input ngCloak class="form-control" name="nota" value="{$ x.nota $}"/></td>
-                            <td><input ngCloak class="form-control" name="pedido" value="{$ x.pedido $}"/></td>
-                            <td><input ngCloak class="form-control" name="fornecedor" value="{$ x.fornecedor $}"/></td>
-                            <td><input ngCloak class="form-control" name="dtRecebimento" value="{$ x.recebimento $}"/></td>
+                            <td>{$ x.codigo $}</td>
+                            <td>{$ x.desc $}</td>
+                            <td>{$ x.un $}</td>
+                            <td><input class="form-control" name="nota" value="{$ x.nota $}"/></td>
+                            <td><input class="form-control" name="pedido" value="{$ x.pedido $}"/></td>
+                            <td><input class="form-control" name="fornecedor" value="{$ x.fornecedor $}"/></td>
+                            <td><input class="form-control" name="dtRecebimento" value="{$ x.recebimento $}"/></td>
                             <td><button class="btn btn-sm btn-danger" ng-click="removeItem(x)">Remover</button></td>
                         </tr>
                     </tbody>
