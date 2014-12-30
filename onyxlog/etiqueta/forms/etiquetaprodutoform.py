@@ -14,13 +14,13 @@ class EtiquetaProdutoForm(forms.Form):
     nota = forms.CharField(
         label="Nota Fiscal",
         help_text="Nota fiscal em que o produto foi recebido",
-        max_length=9,
+        max_length=10,
         required=False,
     )
 
     pedido = forms.CharField(
         label="Pedido",
-        max_length=9,
+        max_length=10,
         required=False,
     )
     
