@@ -57,11 +57,12 @@
                     <thead>
                         <tr>
                             <th width="10%">Código</th>
-                            <th width="30%">Produto</th>
+                            <th width="25%">Produto</th>
                             <th width="5%">UN</th>
+                            <th width="10%">Qtd</th>
                             <th width="10%">Nota</th>
                             <th width="10%">Pedido</th>
-                            <th width="20%">Fornecedor</th>
+                            <th width="15%">Fornecedor</th>
                             <th width="10%">Recebimento</th>
                             <th width="5%" class="no_sort"></th>
                         </tr>
@@ -71,6 +72,7 @@
                             <td>{$ x.codigo $}</td>
                             <td>{$ x.desc $}</td>
                             <td>{$ x.un $}</td>
+                            <td><input class="form-control" name="qtd" value="{$ x.qtd $}"/></td>
                             <td><input class="form-control" name="nota" value="{$ x.nota $}"/></td>
                             <td><input class="form-control" name="pedido" value="{$ x.pedido $}"/></td>
                             <td><input class="form-control" name="fornecedor" value="{$ x.fornecedor $}"/></td>

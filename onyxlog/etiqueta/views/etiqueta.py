@@ -37,11 +37,12 @@ class EtiquetaProduto(CoreMixinLoginRequired, TemplateView, CoreMixin):
         # valida os dados digitados com o formulário
         for item in dataPost:
             dataForm = {
-                "produto": item['id'],
-                "nota": item['nota'],
-                "pedido": item['pedido'],
-                "dtRecebimento": item['dtRecebimento'],
-                "fornecedor": item['fornecedor'],
+                "produto"       : item['id'],
+                "qtd"           : item['qtd'],
+                "nota"          : item['nota'],
+                "pedido"        : item['pedido'],
+                "dtRecebimento" : item['dtRecebimento'],
+                "fornecedor"    : item['fornecedor'],
             }
             form = EtiquetaProdutoForm(dataForm)
 
@@ -57,6 +58,7 @@ class EtiquetaProduto(CoreMixinLoginRequired, TemplateView, CoreMixin):
             data.append({
                 "codigo": produto.codigo,
                 "descricao": produto.desc,
+                "qtd": posted['qtd'],
                 "nota": posted['nota'],
                 "pedido": posted['pedido'],
                 "un": produto.unidade.nome,
@@ -117,14 +119,17 @@ def pdfEtiquetaProduto(request):
         p.rect(5,191,365,31,fill=0)
         p.drawString(7,214, "Produto")
 
-        p.rect(5,160,100,31,fill=0)
+        p.rect(5,160,80,31,fill=0)
         p.drawString(7,183, "UN")
 
-        p.rect(105,160,120,31,fill=0)
-        p.drawString(108,183, "Nota")
+        p.rect(85,160,90,31,fill=0)
+        p.drawString(88,183, "Qtd")
 
-        p.rect(225,160,145,31,fill=0)
-        p.drawString(228,183, "Pedido")
+        p.rect(175,160,90,31,fill=0)
+        p.drawString(178,183, "Nota")
+
+        p.rect(265,160,105,31,fill=0)
+        p.drawString(268,183, "Pedido")
 
         p.rect(5,129,365,31,fill=0)
         p.drawString(7,152, "Fornecedor")
@@ -147,8 +152,9 @@ def pdfEtiquetaProduto(request):
 
         p.setFontSize(16)
         p.drawString(17,167, produto['un'])
-        p.drawString(108,167, produto['nota'])
-        p.drawString(238,167, produto['pedido'])
+        p.drawString(88,167, produto['qtd'])
+        p.drawString(178,167, produto['nota'])
+        p.drawString(268,167, produto['pedido'])
         p.drawString(17,136, produto['fornecedor'])
         p.drawString(242,19, produto['recebimento'])
 

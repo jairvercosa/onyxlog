@@ -11,6 +11,12 @@ class EtiquetaProdutoForm(forms.Form):
         required=True,
     )
     
+    qtd = forms.FloatField(
+        label="Qtd",
+        help_text="Quantidade do produto",
+        required=False,
+    )
+
     nota = forms.CharField(
         label="Nota Fiscal",
         help_text="Nota fiscal em que o produto foi recebido",

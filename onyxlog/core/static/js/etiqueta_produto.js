@@ -33,6 +33,7 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
                     codigo: result.codigo,
                     desc: result.desc,
                     un: result.unidade,
+                    qtd: "",
                     nota: "",
                     pedido: "",
                     fornecedor: result.fornecedor,
@@ -80,6 +81,7 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
                 var item = {
                     "id": $scope.products[i].id,
                     "codigo": $scope.products[i].codigo,
+                    "qtd": $(obj).find('input[name=qtd]').val(),
                     "nota": $(obj).find('input[name=nota]').val(),
                     "pedido": $(obj).find('input[name=pedido]').val(),
                     "dtRecebimento": $(obj).find('input[name=dtRecebimento]').val(),
