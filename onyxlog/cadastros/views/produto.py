@@ -116,6 +116,7 @@ class ApiProdutoDetail(CoreMixinLoginRequired, JSONResponseMixin, TemplateView):
             "desc": produto.desc,
             "unidade": produto.unidade.nome,
             "fornecedor": produto.fornecedor,
+            "validade": produto.validade,
         }
         
         context = data

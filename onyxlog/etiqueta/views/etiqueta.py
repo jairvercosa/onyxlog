@@ -39,6 +39,7 @@ class EtiquetaProduto(CoreMixinLoginRequired, TemplateView, CoreMixin):
             dataForm = {
                 "produto"       : item['id'],
                 "qtd"           : item['qtd'],
+                "validade"      : item['validade'],
                 "nota"          : item['nota'],
                 "pedido"        : item['pedido'],
                 "dtRecebimento" : item['dtRecebimento'],
@@ -55,10 +56,18 @@ class EtiquetaProduto(CoreMixinLoginRequired, TemplateView, CoreMixin):
         data = []
         for posted in dataToLabel:
             produto = Produto.objects.get(pk=posted['produto'])
+
+            if produto.validade and not posted['validade']:
+                return self.render_to_json_reponse(context={
+                        'success':False, 
+                        'message': 'Existem produtos que controlam validade e que a mesma não foi preenchida.'
+                    },status=400)
+
             data.append({
                 "codigo": produto.codigo,
                 "descricao": produto.desc,
                 "qtd": posted['qtd'],
+                "validade": posted['validade'],
                 "nota": posted['nota'],
                 "pedido": posted['pedido'],
                 "un": produto.unidade.nome,
@@ -134,6 +143,9 @@ def pdfEtiquetaProduto(request):
         p.rect(5,129,365,31,fill=0)
         p.drawString(7,152, "Fornecedor")
 
+        p.rect(265,129,105,31,fill=0)
+        p.drawString(268,152, "Validade")
+
         # box do codigo de barras
         p.rect(5,10,220,119,fill=0)
         
@@ -151,12 +163,13 @@ def pdfEtiquetaProduto(request):
         p.drawString(7,200, produto['descricao'])
 
         p.setFontSize(16)
-        p.drawString(17,167, produto['un'])
-        p.drawString(88,167, produto['qtd'])
+        p.drawString(17 ,167, produto['un'])
+        p.drawString(88 ,167, produto['qtd'])
         p.drawString(178,167, produto['nota'])
         p.drawString(268,167, produto['pedido'])
-        p.drawString(17,136, produto['fornecedor'])
-        p.drawString(242,19, produto['recebimento'])
+        p.drawString(17 ,136, produto['fornecedor'])
+        p.drawString(268,136, produto['validade'])
+        p.drawString(242,19 , produto['recebimento'])
 
         # codigo de barras
         barcode = code128.Code128(produto['codigo'],barWidth=0.5*mm,barHeight=30*mm)

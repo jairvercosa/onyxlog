@@ -13,7 +13,7 @@ class CoreMixin():
     Mixin para funções padrões da aplicação
     """
     def render_to_json_reponse(self, context, **response_kwargs):
-        if response_kwargs['status'] == 400:
+        if response_kwargs['status'] == 400 and 'message' not in context:
             context['message'] = 'Existem erros no formulário.'
         
         data = json.dumps(context)

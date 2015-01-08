@@ -34,15 +34,18 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
                     desc: result.desc,
                     un: result.unidade,
                     qtd: "",
+                    validade: "",
                     nota: "",
                     pedido: "",
                     fornecedor: result.fornecedor,
-                    recebimento: ""
+                    recebimento: "",
+                    validadeRequired: result.validade,
                 });
 
                 $scope.$apply();
 
                 $('input[name="dtRecebimento"]').datepicker(app.datePickerBr);
+                $('input[name="validade"]').datepicker(app.datePickerBr);
             },
             error: function(response){
                 result = $.parseJSON(response.responseText);
@@ -82,6 +85,7 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
                     "id": $scope.products[i].id,
                     "codigo": $scope.products[i].codigo,
                     "qtd": $(obj).find('input[name=qtd]').val(),
+                    "validade": $(obj).find('input[name=validade]').val(),
                     "nota": $(obj).find('input[name=nota]').val(),
                     "pedido": $(obj).find('input[name=pedido]').val(),
                     "dtRecebimento": $(obj).find('input[name=dtRecebimento]').val(),
@@ -116,6 +120,7 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
                 },
                 error: function(response){
                     app.removeLoading();
+                    console.log(response);
                     try{
                         var result = $.parseJSON(response.responseText);
                         

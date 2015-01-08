@@ -334,3 +334,5 @@ ul.ul-metas li button.remove-goal { padding: 0px 4px; width: 25px; }
 
     #id-div-filter { width: 325px; }
 }
+
+.border-red  { border-color: red !important; }

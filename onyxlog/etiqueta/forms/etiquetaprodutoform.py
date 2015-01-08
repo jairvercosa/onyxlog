@@ -17,6 +17,12 @@ class EtiquetaProdutoForm(forms.Form):
         required=False,
     )
 
+    validade = forms.DateField(
+        label="Validade",
+        help_text="Validade do produto",
+        required=False,
+    )
+
     nota = forms.CharField(
         label="Nota Fiscal",
         help_text="Nota fiscal em que o produto foi recebido",
