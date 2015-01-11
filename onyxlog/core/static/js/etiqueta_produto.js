@@ -12,9 +12,14 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
     $interpolateProvider.endSymbol('$}');
 }).controller('controllerProduto', function controllerProduto($scope, $http){
     /*
-     * @var array data - Lista de produtos para serem impressos
+     * @var array products - Lista de produtos para serem impressos
      */
     $scope.products = [];
+
+    /*
+     * @var array products - Lista de endereços para serem escolhidos
+     */
+    $scope.adress = [];
     
     /*
      * busca dados de um produto
@@ -34,6 +39,7 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
                     desc: result.desc,
                     un: result.unidade,
                     qtd: "",
+                    endereco: "",
                     validade: "",
                     nota: "",
                     pedido: "",
@@ -46,6 +52,31 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
 
                 $('input[name="dtRecebimento"]').datepicker(app.datePickerBr);
                 $('input[name="validade"]').datepicker(app.datePickerBr);
+                $('select[name="endereco"').combobox();
+            },
+            error: function(response){
+                result = $.parseJSON(response.responseText);
+                alert(result.message);
+            }
+        });
+    };
+
+    /*
+     * busca endereços
+     */
+    $scope.getEnderecos = function(){
+        $.ajax({
+            url: '/estoque/endereco/api/fit/',
+            type: 'get',
+            success: function(result){
+                $.each(result, function(i,obj){
+                    $scope.adress.push({
+                        id: obj.id,
+                        codigo: obj.codigo
+                    });
+                });
+
+                $scope.$apply();
             },
             error: function(response){
                 result = $.parseJSON(response.responseText);
@@ -58,11 +89,11 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
      * adiciona produtos à lista 
      */
     $scope.addProduct = function(){
-        var productId = $('#id_produto').val();
+        var productId = $('#id_produto_id').val();
         $scope.getProductData(productId);
 
-        $('#id_produto').find('option').selected = false
-        $('.custom-combobox-input').val('');
+        $('#id_produto_id').find('option').selected = false
+        $('#id-div-combo-prod .custom-combobox-input').val('');
     };
 
     /*
@@ -85,6 +116,7 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
                     "id": $scope.products[i].id,
                     "codigo": $scope.products[i].codigo,
                     "qtd": $(obj).find('input[name=qtd]').val(),
+                    "endereco": $(obj).find('select[name=endereco]').val(),
                     "validade": $(obj).find('input[name=validade]').val(),
                     "nota": $(obj).find('input[name=nota]').val(),
                     "pedido": $(obj).find('input[name=pedido]').val(),
@@ -171,5 +203,6 @@ var etiquetasApp = angular.module('etiquetasApp', [], function ($interpolateProv
         return true;
     };
 
-    $('#id_produto').combobox();
+    $('#id_produto_id').comboboxprod();
+    $scope.getEnderecos();
 });

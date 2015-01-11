@@ -39,6 +39,7 @@ class EtiquetaProduto(CoreMixinLoginRequired, TemplateView, CoreMixin):
             dataForm = {
                 "produto"       : item['id'],
                 "qtd"           : item['qtd'],
+                "endereco"      : item['endereco'],
                 "validade"      : item['validade'],
                 "nota"          : item['nota'],
                 "pedido"        : item['pedido'],
@@ -56,6 +57,10 @@ class EtiquetaProduto(CoreMixinLoginRequired, TemplateView, CoreMixin):
         data = []
         for posted in dataToLabel:
             produto = Produto.objects.get(pk=posted['produto'])
+            if posted['endereco']:
+                endereco = Endereco.objects.get(pk=posted['endereco']).codigo
+            else:
+                endereco = ''
 
             if produto.validade and not posted['validade']:
                 return self.render_to_json_reponse(context={
@@ -67,6 +72,7 @@ class EtiquetaProduto(CoreMixinLoginRequired, TemplateView, CoreMixin):
                 "codigo": produto.codigo,
                 "descricao": produto.desc,
                 "qtd": posted['qtd'],
+                "endereco": endereco,
                 "validade": posted['validade'],
                 "nota": posted['nota'],
                 "pedido": posted['pedido'],
@@ -149,10 +155,12 @@ def pdfEtiquetaProduto(request):
         # box do codigo de barras
         p.rect(5,10,220,119,fill=0)
         
-        p.rect(225,41,145,88,fill=0)
+        p.rect(225,72,145,57,fill=0)
         p.drawString(227,121, "Código do Produto")
+        p.rect(225,75,145,40,fill=1)
 
-        p.rect(225,52,145,60,fill=1)
+        p.rect(225,41,145,31,fill=0)
+        p.drawString(227,65, "Endereço")
 
         p.rect(225,10,145,31,fill=0)
         p.drawString(227,34, "Recebimento")
@@ -179,7 +187,11 @@ def pdfEtiquetaProduto(request):
 
         p.setFontSize(16)
         p.setFillColorRGB(255,255,255)
-        p.drawString(236,75, produto['codigo'])
+        p.drawString(230,90, produto['codigo'])
+
+        p.setFontSize(14)
+        p.setFillColorRGB(0,0,0)
+        p.drawString(230,50, produto['endereco'])
         p.showPage()
 
     p.save()

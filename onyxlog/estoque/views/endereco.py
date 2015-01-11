@@ -8,6 +8,7 @@ from django.http import Http404
 from ...core.base.core_base_datatable import CoreBaseDatatableView
 from ...core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel
 from ...core.mixins.core_mixin_login import CoreMixinLoginRequired
+from ...core.mixins.core_mixin_json import JSONResponseMixin
 
 from ..models.endereco import Endereco
 
@@ -78,3 +79,21 @@ class EnderecoAuto(CoreMixinLoginRequired, TemplateView):
     View para geração automática
     """
     template_name = 'endereco_auto.html'
+
+class ApiEnderecoFit(CoreMixinLoginRequired, JSONResponseMixin, TemplateView):
+    """
+    Retorna em json os enderecos
+    """
+    def get(self, request, *args, **kwargs):
+        qs = Endereco.objects.all()
+        data = []
+        
+        for item in qs:
+            data.append({
+                "id": item.pk,
+                "codigo": item.codigo,
+            })
+
+        context = data
+        
+        return self.render_to_response(context)

@@ -31,13 +31,13 @@
                     {% csrf_token %}
                     <div class="control-group">
                         <div class="row no-padding">
-                            <label class="control-label" for="id_produto">Produto</label>
+                            <label class="control-label" for="id_produto_id">Produto</label>
                             <div><small>Selecione o produto desejado e clique em adicionar.</small></div>
                         </div>
                         <div class="row no-padding">
-                            <div class="col-lg-10 no-padding">
+                            <div class="col-lg-10 no-padding" id="id-div-combo-prod">
                                 <div class="controls">
-                                    <select id="id_produto" name="produto"></select>
+                                    <select id="id_produto_id" name="produto"></select>
                                 </div>
                             </div>
                             <div class="col-lg-2">
@@ -56,10 +56,11 @@
                     {% csrf_token %}
                     <thead>
                         <tr>
-                            <th width="10%">Código</th>
-                            <th width="20%">Produto</th>
+                            <th width="5%">Código</th>
+                            <th width="15%">Produto</th>
                             <th width="5%">UN</th>
                             <th width="10%">Qtd</th>
+                            <th width="10%">Endereço</th>
                             <th width="10%">Validade</th>
                             <th width="10%">Nota</th>
                             <th width="10%">Pedido</th>
@@ -74,6 +75,12 @@
                             <td>{$ x.desc $}</td>
                             <td>{$ x.un $}</td>
                             <td><input class="form-control" name="qtd" value="{$ x.qtd $}"/></td>
+                            <td>
+                                <select class="form-control" name="endereco">
+                                    <option value=""></option>
+                                    <option ng-repeat="y in adress" value="{$ y.id $}">{$ y.codigo $}</option>
+                                </select>
+                            </td>
                             <td><input ng-class="{'border-red': x.validadeRequired}" class="form-control" name="validade" value="{$ x.validade $}"/></td>
                             <td><input class="form-control" name="nota" value="{$ x.nota $}"/></td>
                             <td><input class="form-control" name="pedido" value="{$ x.pedido $}"/></td>
@@ -102,6 +109,7 @@
     {{block.super}}
     <script type="text/javascript" src="{% static 'js/angular.min.js' %}" ></script>
     <script type="text/javascript" src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'js/jquery.ui.combobox.js' %}" ></script>
     <script type="text/javascript" src="{% static 'js/custom.combobox.produtos.js' %}" ></script>
     <script type="text/javascript" src="{% static 'js/jquery.stringify.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/etiqueta_produto.js' %}" ></script>

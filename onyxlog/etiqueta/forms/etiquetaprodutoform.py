@@ -2,6 +2,7 @@
 from django import forms
 from django.forms.widgets import *
 from ...cadastros.models.produto import Produto
+from ...estoque.models.endereco import Endereco
 
 class EtiquetaProdutoForm(forms.Form):
     produto = forms.ModelChoiceField(
@@ -20,6 +21,13 @@ class EtiquetaProdutoForm(forms.Form):
     validade = forms.DateField(
         label="Validade",
         help_text="Validade do produto",
+        required=False,
+    )
+
+    endereco = forms.ModelChoiceField(
+        queryset=Endereco.objects.all(),
+        label="Endereço",
+        help_text="Endereço do produto",
         required=False,
     )
 

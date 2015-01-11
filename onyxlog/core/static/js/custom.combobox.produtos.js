@@ -1,5 +1,5 @@
 (function( $ ) {
-    $.widget( "custom.combobox", {
+    $.widget( "custom.comboboxprod", {
         _create: function() {
             this.wrapper = $( "<span>" )
                 .addClass( "custom-combobox" )
@@ -33,13 +33,13 @@
                     var match = false;
                     var opt;
                     $('#id_produto_id').val(ui.item.value);
-                    $('.custom-combobox-input').val(ui.item.label)
+                    $('#id_produto_id').parent().find('.custom-combobox-input').val(ui.item.label)
 
-                    $('#id_produto').find('option').selected = false;
-                    opt = $('#id_produto').find('option[value='+ui.item.id+']');
+                    $('#id_produto_id').find('option').selected = false;
+                    opt = $('#id_produto_id').find('option[value='+ui.item.id+']');
                     if(opt.length==0){
-                        $('#id_produto').append('<option value="'+ui.item.id+'">'+ui.item.label+'</option>');
-                        opt = $('#id_produto').find('option[value='+ui.item.id+']')
+                        $('#id_produto_id').append('<option value="'+ui.item.id+'">'+ui.item.label+'</option>');
+                        opt = $('#id_produto_id').find('option[value='+ui.item.id+']')
                     }
                     
                     opt[0].selected = true;
