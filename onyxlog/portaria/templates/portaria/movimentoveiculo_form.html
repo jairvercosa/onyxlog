@@ -32,7 +32,13 @@
                     {{ form|as_bootstrap }}
                 </fieldset>
                 {% block button %}
-                    {{ block.super }}
+                <div class="control-group">
+                    <div class="col-lg-5 no-padding">
+                        <button type="submit" class="btn btn-sm btn-primary" id="btnSend"><i class="glyphicon glyphicon-ok"></i>  Salvar</button>
+                        <button class="btn btn-sm btn-outline btn-default" id="btnCancel"><i class="glyphicon glyphicon-arrow-left"></i> Voltar</button>
+                    </div>
+                </div>
+                <span class="ajaxLoading"><img src="{% static 'img/ajax-loader.gif' %}" /></span>
                 {% endblock %}
             </form>
         </div>
@@ -60,4 +66,11 @@
     {{ block.super }}
     <script type="text/javascript">var veiculo_id = 0, ocupates_veiculo = [];</script>
     <script type="text/javascript" src="{% static 'js/portaria.veiculo.form.js' %}" ></script>
+    <script type="text/javascript">
+        form.fnRedirectAfterPost = function(result){
+            alert('Entrada do veículo registrada, as etiquetas foram geradas.');
+            $('#btnSend').hide();
+            window.location.href = "/portaria/movimento/visitante/pdf/";
+        };
+    </script>
 {% endblock %}

@@ -81,7 +81,7 @@ var formVeiculo = {
      */
     onClickRemoveOcupante: function(){
         $(this).parent().parent().remove();
-    },
+    }
 
 }
 

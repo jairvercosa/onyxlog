@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^movimento/visitante/(?P<pk>\d+)/$', MovimentoVisitanteUpdateForm.as_view(),name='portaria.change_movimentovisitante'),
     url(r'^movimento/visitante/remove/(?P<pk>\d+)/$', MovimentoVisitanteDelete.as_view(),name='portaria.delete_movimentovisitante'),
     url(r'^movimento/visitante/$', MovimentoVisitanteList.as_view(), name='portaria.list_movimentovisitante'),
+    url(r'^movimento/visitante/pdf/', 'onyxlog.portaria.views.movimentovisitante.pdfEtiquetaVisitante', name='portaria.etiqueta_visitante_pdf'),
 
     # api
     url(r'^movimento/api/', include(router.urls)),

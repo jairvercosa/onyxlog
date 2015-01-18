@@ -122,6 +122,7 @@ class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinFo
 
     def form_valid(self, form, ocupantes):
         response = super(MovimentoVeiculoCreateForm, self).form_valid(form)
+        dataToLabel = []
         
         for ocupante in ocupantes:
             visitante = MovimentoVisitante(
@@ -133,7 +134,9 @@ class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinFo
                 obs = self.object.obs,
             )
             visitante.save()
+            dataToLabel.append(visitante.pk)
 
+        self.request.session['dataEtiquetaVisitante'] = dataToLabel
         return self.render_to_json_reponse(
             context={
                 'success':True, 
