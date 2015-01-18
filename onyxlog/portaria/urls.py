@@ -4,6 +4,7 @@ from rest_framework import routers
 from views.index import *
 from views.movimentovisitante import *
 from views.movimentoveiculo import *
+from views.motivo import *
 
 router = routers.DefaultRouter()
 router.register(r'visitante',ApiEntradaVisitante)
@@ -28,4 +29,11 @@ urlpatterns = patterns('',
     url(r'^movimento/veiculo/(?P<pk>\d+)/$', MovimentoVeiculoUpdateForm.as_view(),name='portaria.change_movimentoveiculo'),
     url(r'^movimento/veiculo/remove/(?P<pk>\d+)/$', MovimentoVeiculoDelete.as_view(),name='portaria.delete_movimentoveiculo'),
     url(r'^movimento/veiculo/$', MovimentoVeiculoList.as_view(), name='portaria.list_movimentoveiculo'),
+
+    # motivos
+    url(r'^motivo/data/$', MotivoData.as_view(),name='portaria.list_json_motivo'),
+    url(r'^motivo/formulario/$', MotivoCreateForm.as_view(),name='portaria.add_motivo'),
+    url(r'^motivo/(?P<pk>\d+)/$', MotivoUpdateForm.as_view(),name='portaria.change_motivo'),
+    url(r'^motivo/remove/(?P<pk>\d+)/$', MotivoDelete.as_view(),name='portaria.delete_motivo'),
+    url(r'^motivo/$', MotivoList.as_view(), name='portaria.list_motivo'),
 )

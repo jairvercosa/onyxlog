@@ -15,7 +15,7 @@ class MovimentoVeiculoForm(forms.ModelForm):
         
     class Meta:
         model = MovimentoVeiculo
-        fields = ['entrada','entrada_hora','saida', 'saida_hora', 'veiculo', 'placa', 'cor', 'nota', 'fornecedor',]
+        fields = ['entrada','entrada_hora','saida', 'saida_hora', 'motivo', 'veiculo', 'placa', 'cor', 'nota', 'fornecedor',]
         exclude = ['codigo']
 
 class MovimentoVeiculoUpdateForm(MovimentoVeiculoForm):

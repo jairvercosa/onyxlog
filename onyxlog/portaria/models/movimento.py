@@ -53,6 +53,14 @@ class Movimento(models.Model):
         default=''
     )
 
+    motivo = models.ForeignKey(
+        'portaria.Motivo',
+        verbose_name="Motivo da Visita",
+        blank=False,
+        null=True,
+        on_delete=models.PROTECT
+    )
+
     def registerExit(self):
         if not self.saida:
             self.saida = datetime.datetime.now()

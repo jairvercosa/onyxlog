@@ -27,7 +27,7 @@ class MovimentoVisitanteForm(forms.ModelForm):
         
     class Meta:
         model = MovimentoVisitante
-        fields = ['entrada','entrada_hora','saida', 'saida_hora', 'cpf', 'nome', 'empresa', 'liberado_por', 'obs',]
+        fields = ['entrada','entrada_hora','saida', 'saida_hora', 'motivo', 'cpf', 'nome', 'empresa', 'liberado_por', 'obs',]
         exclude = ['codigo']
 
 class MovimentoVisitanteUpdateForm(MovimentoVisitanteForm):
