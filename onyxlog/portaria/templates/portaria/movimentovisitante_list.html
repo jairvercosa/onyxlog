@@ -1,0 +1,51 @@
+{% extends "base_list.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block title %}Movimento de Visitantes{% endblock %}
+{% block subtitle %}Lista de entradas e saídas de visitantes{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Portaria" "/portaria/" %}
+    {% breadcrumb "Movimento de Visitantes" "/portaria/movimento/visitante/" %}
+{% endblock %}
+
+{% block breadcrumbrender %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+
+{% block tablelist %}
+<table cellpadding="0" cellspacing="0" border="0" class="table  table-striped table-hover datatable" id="gridlist" url-data-source="{% url 'portaria.list_json_movimentovisitante' %}">
+    {% csrf_token %}
+    <thead>
+        <tr>
+            <th width="10%" >Entrada</th>
+            <th width="5%" class="no_sort">Hr</th>
+            <th width="10%" >Saída</th>
+            <th width="5%" class="no_sort">Hr</th>
+            <th width="10%" >Código</th>
+            <th width="10%" >CPF</th>
+            <th width="20%" >Nome</th>
+            <th width="15%" class="no_sort">Liberado por</th>
+            <th width="5%" class="no_sort"></th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot></tfoot>
+</table>
+{% endblock %}
+{% block jsblock %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            grid.fnStartObject({
+                'urlData' : "{% url 'portaria.list_json_movimentovisitante' %}",
+                'urlDel'  : '{{ request.get_full_path }}'+'remove/',
+                'tableObj': '#gridlist',
+                'aaSorting': [[0,'desc']]
+            });
+        });
+    </script>
+{% endblock %}

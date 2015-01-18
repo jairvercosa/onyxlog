@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'onyxlog.cadastros',
     'onyxlog.etiqueta',
     'onyxlog.estoque',
+    'onyxlog.portaria',
 
 )
 

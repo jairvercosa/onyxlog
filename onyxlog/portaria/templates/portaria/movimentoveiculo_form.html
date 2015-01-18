@@ -1,0 +1,63 @@
+{% extends "base_form.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+{% load bootstrap_toolkit %}
+
+{% block title %}Movimento de Veículo{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Portaria" "/portaria/" %}
+    {% breadcrumb "Movimento de Veículos" "/portaria/movimento/veiculo/" %}
+    {% breadcrumb "Nova Entrada" "/portaria/movimento/veiculo/formulario" %}
+{% endblock %}
+
+{% block breadcrumbrender %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+
+{% block formRender %}
+    <div class="row">
+        <div class="col-lg-6 ">
+            <div class="response_form alert alert-dismissable"><span></span></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 top-buffer-10">
+            <form class="form-horizontal" redirect_data="{% url 'portaria.list_movimentoveiculo' %}" method="post" action="{{ request.get_full_path }}" id="formEntradaVeiculo" onSubmit="return false;">
+                <fieldset>
+                    <legend>Dados do Veículo</legend>
+                    {% csrf_token %}
+                    {{ form|as_bootstrap }}
+                </fieldset>
+                {% block button %}
+                    {{ block.super }}
+                {% endblock %}
+            </form>
+        </div>
+        <div class="col-lg-6 top-buffer-10">
+            <fieldset>
+                <legend>Ocupantes do Veículo</legend>
+                <table class="table" id="table-ocupantes">
+                    <thead>
+                        <tr>
+                            <td width="20%">CPF</td>
+                            <td>Nome</td>
+                            <td width="30%">Empresa</td>
+                            <td width="10%"></td>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <button id="btn-add-ocupante" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-plus"></i> Novo Ocupante</button>
+            </fieldset>
+        </div>
+    </div>
+{% endblock %}
+
+{% block jsblock %}
+    {{ block.super }}
+    <script type="text/javascript">var veiculo_id = 0, ocupates_veiculo = [];</script>
+    <script type="text/javascript" src="{% static 'js/portaria.veiculo.form.js' %}" ></script>
+{% endblock %}

@@ -35,6 +35,12 @@
                         {% include 'etiqueta_itens_menu.html' %}
                     </ul>
                 </li>
+                <li class="bottom-buffer-20">
+                    <a href="{% url 'portaria.portaria_index' %}">Portaria</a>
+                    <ul>
+                        {% include 'portaria/portaria_menu_itens.html' %}
+                    </ul>
+                </li>
                 {% if perms.core.core_configurations %}
                 <li class="bottom-buffer-20">
                     <a href="{% url 'core.core_configurations' %}">Configurações</a>

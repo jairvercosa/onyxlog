@@ -1,0 +1,37 @@
+{% extends "base_form.html"%}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+{% load bootstrap_toolkit %}
+
+{% block title %}Movimento de Visitantes{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Portaria" "/portaria/" %}
+    {% breadcrumb "Movimento de Visitantes" "/portaria/movimento/visitante/" %}
+    {% breadcrumb "Nova Entrada" "/portaria/movimento/visitante/formulario" %}
+{% endblock %}
+
+{% block breadcrumbrender %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+
+{% block formRender %}
+    <div class="row">
+        <div class="col-lg-6 ">
+            <div class="response_form alert alert-dismissable"><span></span></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 top-buffer-10">
+            <form class="form-horizontal" redirect_data="{% url 'portaria.list_movimentovisitante' %}" method="post" action="{{ request.get_full_path }}" id="formEntradaVisitante" onSubmit="return false;">
+                {% csrf_token %}
+                {{ form|as_bootstrap }}
+                {% block button %}
+                    {{ block.super }}
+                {% endblock %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
