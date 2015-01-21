@@ -102,6 +102,8 @@ class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinFo
             )
 
         for ocupante in ocupantes:
+            ocupante.update({'motivo': request.POST.get('motivo')})
+            print ocupante
             ocupate_form = MovimentoVisitanteForm(ocupante)
             if not ocupate_form.is_valid():
                 return self.render_to_json_reponse(
@@ -111,10 +113,9 @@ class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinFo
                     },
                     status=400
                 )
-                
+             
         form_class = self.get_form_class()
-        form = self.get_form(form_class)
-
+        form = self.get_form(form_class)   
         if form.is_valid():
             return self.form_valid(form, ocupantes)
         else:
