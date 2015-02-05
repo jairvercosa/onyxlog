@@ -28,6 +28,8 @@ urlpatterns = patterns('',
     url(r'^movimento/veiculo/remove/(?P<pk>\d+)/$', MovimentoVeiculoDelete.as_view(),name='portaria.delete_movimentoveiculo'),
     url(r'^movimento/veiculo/$', MovimentoVeiculoList.as_view(), name='portaria.list_movimentoveiculo'),
 
+    url(r'^movimento/veiculo/api/(?P<placa>[\w_-]+)/$', ApiVeiculoDetail.as_view(),name='portaria.api_veiculo_detail'),
+
     # motivos
     url(r'^motivo/data/$', MotivoData.as_view(),name='portaria.list_json_motivo'),
     url(r'^motivo/formulario/$', MotivoCreateForm.as_view(),name='portaria.add_motivo'),

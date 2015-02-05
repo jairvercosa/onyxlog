@@ -9,6 +9,7 @@ from rest_framework import viewsets
 from ...core.base.core_base_datatable import CoreBaseDatatableView
 from ...core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel
 from ...core.mixins.core_mixin_login import CoreMixinLoginRequired
+from ...core.mixins.core_mixin_json import JSONResponseMixin
 
 from ..models.movimentovisitante import MovimentoVisitante
 from ..models.movimentoveiculo import MovimentoVeiculo, MovimentoVeiculoSerializer
@@ -196,3 +197,29 @@ class MovimentoVeiculoDelete(CoreMixinLoginRequired, CoreMixinDel):
     """
     model = MovimentoVeiculo
     success_url = '/portaria/movimento/veiculo/'
+
+class ApiVeiculoDetail(CoreMixinLoginRequired, JSONResponseMixin, TemplateView):
+    """
+    Retorna em json
+    """
+    def get(self, request, *args, **kwargs):
+        veiculos = MovimentoVeiculo.objects.filter(placa=self.kwargs.get('placa', None), saida__isnull=False) \
+                                              .order_by('-saida')
+
+        if veiculos:
+            veiculo = veiculos[0]
+            data = {
+                "placa": veiculo.placa,
+                "veiculo": veiculo.veiculo,
+                "cor": veiculo.cor,
+            }
+        else:
+            data = {
+                "placa": '',
+                "veiculo": '',
+                "cor": '',
+            }
+
+        context = data
+        
+        return self.render_to_response(context)

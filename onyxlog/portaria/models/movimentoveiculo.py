@@ -9,6 +9,13 @@ class MovimentoVeiculo(Movimento):
     Movimentos de entrada e saída de veículos
     """
 
+    placa = models.CharField(
+        verbose_name="Placa",
+        max_length=7,
+        blank=False,
+        null=False,
+    )
+
     veiculo = models.CharField(
         verbose_name="Veículo",
         help_text="Ex. Fiat Pálio, Gol, Caminhão Scannia.",
@@ -17,12 +24,6 @@ class MovimentoVeiculo(Movimento):
         null=False,
     )
 
-    placa = models.CharField(
-        verbose_name="Placa",
-        max_length=7,
-        blank=False,
-        null=False,
-    )
 
     cor = models.CharField(
         verbose_name="Cor",

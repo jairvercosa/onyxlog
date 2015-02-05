@@ -72,5 +72,20 @@
             $('#btnSend').hide();
             window.location.href = "/portaria/movimento/visitante/pdf/";
         };
+
+        $(document).ready(function(){
+            $('#id_placa').bind('blur',function(){
+                if($('#id_veiculo').val() == ''){
+                    $.get(
+                        '/portaria/movimento/veiculo/api/'+ $('#id_placa').val() +'/',
+                        {},
+                        function(response){
+                            $('#id_veiculo').val(response.veiculo);
+                            $('#id_cor').val(response.cor);
+                        }
+                    );
+                }
+            });
+        });
     </script>
 {% endblock %}
