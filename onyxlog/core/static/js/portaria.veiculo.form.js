@@ -73,6 +73,21 @@ var formVeiculo = {
 
         $('#table-ocupantes tbody').append(html);
         $('.btn-remove-ocupante').bind('click',formVeiculo.onClickRemoveOcupante);
+        $('input[name="cpf"]').bind('blur',function(){
+            nomeEle = $(this).parent().parent().parent().find('input[name="nome"]')
+            empresaEle = $(this).parent().parent().parent().find('input[name="empresa"]')
+
+            if($(nomeEle).val() == ''){
+                $.get(
+                    '/portaria/movimento/visitante/api/'+ $(this).val() +'/',
+                    {},
+                    function(response){
+                        $(nomeEle).val(response.nome);
+                        $(empresaEle).val(response.empresa);
+                    }
+                );
+            }
+        });
     },
 
     /* Função para remover um ocupante

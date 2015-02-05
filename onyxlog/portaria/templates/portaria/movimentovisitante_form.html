@@ -44,6 +44,8 @@
 
 {% block jsblock %}
     {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'js/jquery.ui.combobox.js' %}" ></script>
     <script type="text/javascript">
         form.fnRedirectAfterPost = function(result){
             alert('Entrada de visitante registrada, a etiqueta foi gerada.');
@@ -51,5 +53,20 @@
             window.location.href = "/portaria/movimento/visitante/pdf/";
         }
 
+        $(document).ready(function(){
+            $('#id_cpf').bind('blur',function(){
+                if($('#id_nome').val() == ''){
+                    $.get(
+                        '/portaria/movimento/visitante/api/'+ $('#id_cpf').val() +'/',
+                        {},
+                        function(response){
+                            $('#id_nome').val(response.nome);
+                            $('#id_empresa').val(response.empresa);
+                            $('#id_liberado_por').val(response.liberado_por);
+                        }
+                    );
+                }
+            });
+        });
     </script>
 {% endblock %}
