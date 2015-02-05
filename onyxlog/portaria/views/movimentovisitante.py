@@ -34,7 +34,7 @@ class MovimentoVisitanteData(CoreMixinLoginRequired, CoreBaseDatatableView):
     """
     model = MovimentoVisitante
     columns = [ 'entrada', 'entrada_hora', 'saida', 'saida_hora', 'codigo', 'cpf', 'nome', 'liberado_por', 'buttons', ]
-    order_columns = ['entrada', 'saida', 'codigo', 'cpf', 'nome', ]
+    order_columns = ['entrada', 'entrada_hora', 'saida', 'codigo', 'cpf', 'nome', ]
     max_display_length = 500
     url_base_form = '/portaria/movimento/visitante/'
 
