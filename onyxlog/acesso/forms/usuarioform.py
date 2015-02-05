@@ -5,6 +5,8 @@ from django.contrib.auth.hashers import make_password
 
 from django.contrib.auth.models import User
 
+from ...cadastros.models import Planta
+
 class UsuarioCreateForm(UserCreationForm):
     """
     Formulário de usuários
@@ -13,7 +15,7 @@ class UsuarioCreateForm(UserCreationForm):
     
     class Meta:
         model = User
-        exclude = ('last_login','is_staff','date_joined','is_superuser','password', )
+        exclude = ('last_login','is_staff','date_joined','is_superuser', 'password', 'groups','user_permissions', )
 
     def __init__(self, *args, **kwargs):
         super(UsuarioCreateForm, self).__init__(*args, **kwargs)
@@ -25,8 +27,6 @@ class UsuarioCreateForm(UserCreationForm):
             'is_active', 
             'password1', 
             'password2', 
-            'groups', 
-            'user_permissions',
         ]
 
     def get_absolute_url(self):
@@ -38,6 +38,13 @@ class UsuarioUpdateForm(UserChangeForm):
     """
     username = forms.CharField(required=False)
     password = forms.CharField(widget=forms.PasswordInput, required=False)
+    plantas = forms.MultipleChoiceField(
+        label="Plantas de Operação",
+        help_text='Plantas de operação que o usuário tem acesso. Mantenha o "Control", \
+        ou "Command" no Mac, pressionado para selecionar mais de uma opção.',
+        required=False,
+        choices=((item.id, item.nome) for item in Planta.objects.all())
+    )
     m2mSave  = False
     
     class Meta:
@@ -48,7 +55,7 @@ class UsuarioUpdateForm(UserChangeForm):
         super(UsuarioUpdateForm, self).__init__(*args, **kwargs)
         self.fields.keyOrder = [
             'username', 'first_name', 'last_name', 'password', 'email', 
-            'telefone', 'is_active', 'groups', 'user_permissions',
+            'telefone', 'is_active', 'groups', 'plantas', 'user_permissions',
         ]
 
     def clean_password(self):

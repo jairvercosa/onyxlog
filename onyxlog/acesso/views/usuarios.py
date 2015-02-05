@@ -9,9 +9,11 @@ from django.db.models import Q
 
 from django.contrib.auth.models import User
 from onyxlog.acesso.forms.usuarioform import UsuarioCreateForm, UsuarioUpdateForm
+from onyxlog.acesso.models import Perfil
 from onyxlog.core.base.core_base_datatable import CoreBaseDatatableView
 from onyxlog.core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel
 from onyxlog.core.mixins.core_mixin_login import CoreMixinLoginRequired
+from onyxlog.cadastros.models import Planta
 
 class UsuariosList(CoreMixinLoginRequired, TemplateView):
     """
@@ -84,6 +86,15 @@ class UsuariosUpdateForm(UsuariosCreateForm, UpdateView, CoreMixinForm):
     """
     form_class = UsuarioUpdateForm
 
+    def get_initial(self):
+        initial = self.initial.copy()
+        if hasattr(self.object, 'perfil'):
+            if self.object.perfil:
+                initial.update({'plantas': [item.pk for item in self.object.perfil.plantas.all()]})
+
+        print initial
+        return initial
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form_class = self.get_form_class()
@@ -91,17 +102,30 @@ class UsuariosUpdateForm(UsuariosCreateForm, UpdateView, CoreMixinForm):
         
         permissions = request.POST.getlist('user_permissions[]')
         groups = request.POST.getlist('groups[]')
+        plantas = request.POST.getlist('plantas[]')
 
         if form.is_valid():
             form.cleaned_data['user_permissions'] = permissions
             form.cleaned_data['groups'] = groups
-            return self.form_valid(form)
+            form.cleaned_data['plantas'] = plantas
+            return self.form_valid(form, plantas)
         else:
             return self.form_invalid(form)
 
     #Retorno caso o formulário seja válido
-    def form_valid(self, form):
+    def form_valid(self, form, plantas):
         response = super(UsuariosCreateForm, self).form_valid(form)
+        if hasattr(self.object, 'perfil'):
+            perfil = self.object.perfil
+            perfil.plantas.clear()
+        else:
+            perfil = Perfil(user=self.object)
+            perfil.save()
+            
+        for planta in Planta.objects.filter(id__in=plantas):
+            perfil.plantas.add(planta)
+        
+        perfil.save()
         return self.render_to_json_reponse({'success': True, 'message': 'Registro incluido com sucesso.'},status=200)
 
 class UsuariosDelete(CoreMixinLoginRequired, CoreMixinDel):

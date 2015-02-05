@@ -1,7 +1,7 @@
 from fabric.api import *
 #Default release - 0.0.1
 
-env.release = '0.0.1'
+env.release = '0.0.2'
 
 def production():
     """Confgs da producao"""
@@ -56,7 +56,7 @@ def restart_server():
     if env.settings!='testenv':
         with settings(warn_only=True):
             run('/etc/init.d/nginx stop')
-            run('kill -8 `cat %(path)s/uwsgi_pid.pid`' % env)
+            run('kill -8 cat %(path)s/uwsgi_pid.pid' % env)
             run('rm -f %(path)s/onyxlog.sock' % env)
             
         run('source %(path)s/bin/activate; uwsgi --ini %(path)s/uwsgi.ini' % env)
