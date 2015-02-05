@@ -11,6 +11,8 @@ from ...core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel, CoreMixi
 from ...core.mixins.core_mixin_login import CoreMixinLoginRequired
 from ...core.mixins.core_mixin_json import JSONResponseMixin
 
+from ...cadastros.models import Planta
+
 from ..models.movimentovisitante import MovimentoVisitante
 from ..models.movimentoveiculo import MovimentoVeiculo, MovimentoVeiculoSerializer
 
@@ -48,6 +50,13 @@ class MovimentoVeiculoData(CoreMixinLoginRequired, CoreBaseDatatableView):
             return sReturn
         else:
             return super(MovimentoVeiculoData, self).render_column(row, column)
+
+    def get_initial_queryset(self):
+        qs = super(MovimentoVeiculoData, self).get_initial_queryset()
+        if hasattr(self.request.user, 'perfil'):
+            qs = qs.filter(planta__in=self.request.user.perfil.plantas.all())
+
+        return qs
     
     def filter_queryset(self, qs):
         """
@@ -110,7 +119,7 @@ class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinFo
                 'motivo': request.POST.get('motivo'),
                 'planta': request.POST.get('planta'),
             })
-            print ocupante
+            
             ocupate_form = MovimentoVisitanteForm(ocupante)
             if not ocupate_form.is_valid():
                 return self.render_to_json_reponse(
@@ -140,6 +149,7 @@ class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinFo
                 veiculo = self.object,
                 liberado_por = self.object.liberado_por,
                 obs = self.object.obs,
+                planta = Planta.objects.get(pk=ocupante['planta']),
             )
             visitante.save()
             dataToLabel.append(visitante.pk)

@@ -53,6 +53,13 @@ class MovimentoVisitanteData(CoreMixinLoginRequired, CoreBaseDatatableView):
             return sReturn
         else:
             return super(MovimentoVisitanteData, self).render_column(row, column)
+
+    def get_initial_queryset(self):
+        qs = super(MovimentoVisitanteData, self).get_initial_queryset()
+        if hasattr(self.request.user, 'perfil'):
+            qs = qs.filter(planta__in=self.request.user.perfil.plantas.all())
+            
+        return qs
     
     def filter_queryset(self, qs):
         """
