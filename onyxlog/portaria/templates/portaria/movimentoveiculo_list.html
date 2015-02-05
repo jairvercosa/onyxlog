@@ -22,7 +22,7 @@
     <thead>
         <tr>
             <th width="10%" >Entrada</th>
-            <th width="5%" class="no_sort">Hr</th>
+            <th width="5%"  >Hr</th>
             <th width="10%" >Saída</th>
             <th width="5%" class="no_sort">Hr</th>
             <th width="10%" >Código</th>
@@ -45,7 +45,7 @@
                 'urlData' : "{% url 'portaria.list_json_movimentoveiculo' %}",
                 'urlDel'  : '{{ request.get_full_path }}'+'remove/',
                 'tableObj': '#gridlist',
-                'aaSorting': [[0,'desc']]
+                'aaSorting': [[0,'desc'],[1,'desc']]
             });
         });
     </script>

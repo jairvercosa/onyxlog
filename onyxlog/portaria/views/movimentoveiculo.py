@@ -29,7 +29,7 @@ class MovimentoVeiculoData(CoreMixinLoginRequired, CoreBaseDatatableView):
     """
     model = MovimentoVeiculo
     columns = [ 'entrada', 'entrada_hora', 'saida', 'saida_hora', 'codigo', 'veiculo', 'placa', 'nota', 'fornecedor', 'buttons', ]
-    order_columns = ['entrada', 'saida', 'codigo', 'placa', 'nota', ]
+    order_columns = ['entrada', 'entrada_hora', 'saida', 'codigo', 'placa', 'nota', ]
     max_display_length = 500
     url_base_form = '/portaria/movimento/veiculo/'
 
