@@ -17,6 +17,7 @@ from rest_framework import viewsets
 from ...core.base.core_base_datatable import CoreBaseDatatableView
 from ...core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel
 from ...core.mixins.core_mixin_login import CoreMixinLoginRequired
+from ...core.mixins.core_mixin_json import JSONResponseMixin
 
 from ..models.movimentovisitante import MovimentoVisitante, MovimentoVisitanteSerializer
 from ..forms.visitante_form import MovimentoVisitanteForm, MovimentoVisitanteUpdateForm
@@ -143,10 +144,6 @@ class MovimentoVisitanteDelete(CoreMixinLoginRequired, CoreMixinDel):
     model = MovimentoVisitante
     success_url = '/portaria/movimento/visitante/'
 
-class ApiEntradaVisitante(viewsets.ModelViewSet):
-    queryset = MovimentoVisitante.objects.all()
-    serializer_class = MovimentoVisitanteSerializer
-
 def pdfEtiquetaVisitante(request):
     """
     Gera arquivo PDF das etiquetas solicitadas
@@ -230,3 +227,61 @@ def pdfEtiquetaVisitante(request):
     buffer.close()
     response.write(pdf)
     return response
+
+class ApiVisitanteFit(CoreMixinLoginRequired, JSONResponseMixin, TemplateView):
+    """
+    Retorna em json
+    """
+    def get(self, request, *args, **kwargs):
+        sSearch = self.request.GET.get('term', None)
+
+        data = []
+        qs = []
+        if sSearch:
+            qs = MovimentoVisitante.objects.all().values_list('cpf','nome').distinct()
+            search_parts = sSearch.split('+')
+            qs_params = None
+            for part in search_parts:
+                q = Q(cpf__istartswith=part)|Q(nome__istartswith=part)
+                qs_params = qs_params | q if qs_params else q
+
+            qs = qs.filter(qs_params)
+
+        for item in qs:
+            data.append({
+                "id": item[0],
+                "desc": item[0] + ' - ' + item[1],
+            })
+
+        context = data
+        
+        return self.render_to_response(context)
+
+class ApiVisitanteDetail(CoreMixinLoginRequired, JSONResponseMixin, TemplateView):
+    """
+    Retorna em json
+    """
+    def get(self, request, *args, **kwargs):
+        visitantes = MovimentoVisitante.objects.filter(cpf=self.kwargs.get('cpf', None), saida__isnull=False) \
+                                              .order_by('-saida')
+
+        if visitantes:
+            visitante = visitantes[0]
+            data = {
+                "cpf": visitante.cpf,
+                "nome": visitante.nome,
+                "empresa": visitante.empresa,
+                "liberado_por": visitante.liberado_por,
+            }
+        else:
+            data = {
+                "cpf": '',
+                "nome": '',
+                "empresa": '',
+                "liberado_por": '',
+            }
+
+        
+        context = data
+        
+        return self.render_to_response(context)

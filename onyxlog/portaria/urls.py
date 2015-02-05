@@ -1,13 +1,10 @@
 from django.conf.urls import patterns, include, url
-from rest_framework import routers
 
 from views.index import *
 from views.movimentovisitante import *
 from views.movimentoveiculo import *
 from views.motivo import *
 
-router = routers.DefaultRouter()
-router.register(r'visitante',ApiEntradaVisitante)
 
 urlpatterns = patterns('',
     url(r'^$', PortariaIndex.as_view(), name='portaria.portaria_index'),
@@ -20,8 +17,9 @@ urlpatterns = patterns('',
     url(r'^movimento/visitante/$', MovimentoVisitanteList.as_view(), name='portaria.list_movimentovisitante'),
     url(r'^movimento/visitante/pdf/', 'onyxlog.portaria.views.movimentovisitante.pdfEtiquetaVisitante', name='portaria.etiqueta_visitante_pdf'),
 
-    # api
-    url(r'^movimento/api/', include(router.urls)),
+    url(r'^movimento/visitante/api/fit/$', ApiVisitanteFit.as_view(),name='portaria.api_visitante_fit'),
+    url(r'^movimento/visitante/api/(?P<cpf>\d+)/$', ApiVisitanteDetail.as_view(),name='portaria.api_visitante_detail'),
+
 
     # movimento de veiculos
     url(r'^movimento/veiculo/data/$', MovimentoVeiculoData.as_view(),name='portaria.list_json_movimentoveiculo'),
