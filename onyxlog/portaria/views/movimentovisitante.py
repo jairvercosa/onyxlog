@@ -15,7 +15,7 @@ from django.http import HttpResponse
 from rest_framework import viewsets
 
 from ...core.base.core_base_datatable import CoreBaseDatatableView
-from ...core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel
+from ...core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel, CoreMixinPassRequestForm
 from ...core.mixins.core_mixin_login import CoreMixinLoginRequired
 from ...core.mixins.core_mixin_json import JSONResponseMixin
 
@@ -33,8 +33,8 @@ class MovimentoVisitanteData(CoreMixinLoginRequired, CoreBaseDatatableView):
     View para renderização da lista
     """
     model = MovimentoVisitante
-    columns = [ 'entrada', 'entrada_hora', 'saida', 'saida_hora', 'codigo', 'cpf', 'nome', 'liberado_por', 'buttons', ]
-    order_columns = ['entrada', 'entrada_hora', 'saida', 'codigo', 'cpf', 'nome', ]
+    columns = ['planta', 'entrada', 'entrada_hora', 'saida', 'saida_hora', 'codigo', 'cpf', 'nome', 'liberado_por', 'buttons', ]
+    order_columns = ['planta', 'entrada', 'entrada_hora', 'saida', 'codigo', 'cpf', 'nome', ]
     max_display_length = 500
     url_base_form = '/portaria/movimento/visitante/'
 
@@ -47,6 +47,9 @@ class MovimentoVisitanteData(CoreMixinLoginRequired, CoreBaseDatatableView):
                 sReturn = row.saida.strftime('%d/%m/%Y')
             else:
                 sReturn = ''
+            return sReturn
+        elif column == 'planta':
+            sReturn = row.planta.codigo
             return sReturn
         else:
             return super(MovimentoVisitanteData, self).render_column(row, column)
@@ -63,7 +66,8 @@ class MovimentoVisitanteData(CoreMixinLoginRequired, CoreBaseDatatableView):
                 try:
                     q = Q(entrada=datetime.datetime.strptime(part, '%d/%m/%Y'))|Q(saida=datetime.datetime.strptime(part, '%d/%m/%Y'))
                 except:
-                    q = Q(codigo__istartswith=part)|Q(cpf__istartswith=part)|Q(nome__istartswith=part)|Q(liberado_por__istartswith=part)
+                    q = Q(codigo__istartswith=part)|Q(cpf__istartswith=part)|Q(nome__istartswith=part)|Q(liberado_por__istartswith=part)| \
+                        Q(planta__codigo__istartswith=part)
 
                 qs_params = qs_params | q if qs_params else q
 
@@ -71,7 +75,7 @@ class MovimentoVisitanteData(CoreMixinLoginRequired, CoreBaseDatatableView):
 
         return qs
 
-class MovimentoVisitanteCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinForm):
+class MovimentoVisitanteCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinForm, CoreMixinPassRequestForm):
     model = MovimentoVisitante
     template_name = 'portaria/movimentovisitante_form.html'
     success_url = '/'

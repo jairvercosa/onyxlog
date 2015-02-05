@@ -7,7 +7,7 @@ from django.db.models import Q
 from rest_framework import viewsets
 
 from ...core.base.core_base_datatable import CoreBaseDatatableView
-from ...core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel
+from ...core.mixins.core_mixin_form import CoreMixinForm, CoreMixinDel, CoreMixinPassRequestForm
 from ...core.mixins.core_mixin_login import CoreMixinLoginRequired
 from ...core.mixins.core_mixin_json import JSONResponseMixin
 
@@ -28,8 +28,8 @@ class MovimentoVeiculoData(CoreMixinLoginRequired, CoreBaseDatatableView):
     View para renderização da lista
     """
     model = MovimentoVeiculo
-    columns = [ 'entrada', 'entrada_hora', 'saida', 'saida_hora', 'codigo', 'veiculo', 'placa', 'nota', 'fornecedor', 'buttons', ]
-    order_columns = ['entrada', 'entrada_hora', 'saida', 'codigo', 'placa', 'nota', ]
+    columns = [ 'planta', 'entrada', 'entrada_hora', 'saida', 'saida_hora', 'codigo', 'veiculo', 'placa', 'nota', 'fornecedor', 'buttons', ]
+    order_columns = ['planta', 'entrada', 'entrada_hora', 'saida', 'codigo', 'placa', 'nota', ]
     max_display_length = 500
     url_base_form = '/portaria/movimento/veiculo/'
 
@@ -42,6 +42,9 @@ class MovimentoVeiculoData(CoreMixinLoginRequired, CoreBaseDatatableView):
                 sReturn = row.saida.strftime('%d/%m/%Y')
             else:
                 sReturn = ''
+            return sReturn
+        elif column == 'planta':
+            sReturn = row.planta.codigo
             return sReturn
         else:
             return super(MovimentoVeiculoData, self).render_column(row, column)
@@ -60,7 +63,7 @@ class MovimentoVeiculoData(CoreMixinLoginRequired, CoreBaseDatatableView):
                 except:
                     q = Q(codigo__istartswith=part)|Q(veiculo__istartswith=part) \
                        |Q(placa__istartswith=part)|Q(nota__istartswith=part) \
-                       |Q(fornecedor__istartswith=part)
+                       |Q(fornecedor__istartswith=part)|Q(planta__codigo__istartswith=part)
 
                 qs_params = qs_params | q if qs_params else q
 
@@ -68,7 +71,7 @@ class MovimentoVeiculoData(CoreMixinLoginRequired, CoreBaseDatatableView):
 
         return qs
 
-class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinForm):
+class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinForm, CoreMixinPassRequestForm):
     model = MovimentoVeiculo
     template_name = 'portaria/movimentoveiculo_form.html'
     success_url = '/'
@@ -103,7 +106,10 @@ class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinFo
             )
 
         for ocupante in ocupantes:
-            ocupante.update({'motivo': request.POST.get('motivo')})
+            ocupante.update({
+                'motivo': request.POST.get('motivo'),
+                'planta': request.POST.get('planta'),
+            })
             print ocupante
             ocupate_form = MovimentoVisitanteForm(ocupante)
             if not ocupate_form.is_valid():

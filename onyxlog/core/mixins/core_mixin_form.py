@@ -29,8 +29,10 @@ class CoreMixinPassRequestForm(FormView):
         Returns the keyword arguments for instantiating the form.
         """
         kwargs = super(CoreMixinPassRequestForm, self).get_form_kwargs()
-        kwargs['request'] = self.request
-        kwargs.update({'instance': self.object})
+        kwargs.update({
+            'request': self.request,
+            'instance': self.object,
+        })
         return kwargs
 
 class CoreMixinForm(FormView, CoreMixin, CoreMixinDispatch):

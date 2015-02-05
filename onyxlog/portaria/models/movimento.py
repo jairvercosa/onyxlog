@@ -61,6 +61,14 @@ class Movimento(models.Model):
         on_delete=models.PROTECT
     )
 
+    planta = models.ForeignKey(
+        'cadastros.Planta',
+        verbose_name="Planta de Operação",
+        blank=False,
+        null=False,
+        default=1
+    )
+
     def registerExit(self):
         if not self.saida:
             self.saida = datetime.datetime.now()

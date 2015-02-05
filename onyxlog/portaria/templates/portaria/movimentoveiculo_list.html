@@ -21,6 +21,7 @@
     {% csrf_token %}
     <thead>
         <tr>
+            <th width="5%" >Planta</th>
             <th width="10%" >Entrada</th>
             <th width="5%"  >Hr</th>
             <th width="10%" >Saída</th>
@@ -29,7 +30,7 @@
             <th width="15%" >Veículo</th>
             <th width="10%" >Placa</th>
             <th width="10%" >Nota</th>
-            <th width="15%" class="no_sort">Fornecedor</th>
+            <th width="10%" class="no_sort">Fornecedor</th>
             <th width="5%" class="no_sort"></th>
         </tr>
     </thead>
@@ -45,7 +46,7 @@
                 'urlData' : "{% url 'portaria.list_json_movimentoveiculo' %}",
                 'urlDel'  : '{{ request.get_full_path }}'+'remove/',
                 'tableObj': '#gridlist',
-                'aaSorting': [[0,'desc'],[1,'desc']]
+                'aaSorting': [[0,'asc'],[1,'desc'], [2,'desc']]
             });
         });
     </script>
