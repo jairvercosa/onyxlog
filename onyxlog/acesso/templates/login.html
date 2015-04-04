@@ -55,12 +55,12 @@
                     <p>Entre com seu usuário e senha</p>
                     <div class="field">
                         <label for="username">Usuário</label>
-                        <input class="form-control login username-field" id="id_username" placeholder="Usuário" type="text" />
+                        <input class="form-control login username-field" id="id_username" name="username" placeholder="Usuário" type="text" />
                         {{ form.username.errors }}
                     </div> <!-- /field -->
                     <div class="field">
                         <label for="password">Senha</label>
-                        <input class="form-control login password-field" id="id_senha" placeholder="Senha" type="password" />
+                        <input class="form-control login password-field" id="id_senha" name="senha" placeholder="Senha" type="password" />
                         {{ form.senha.errors }}
                     </div> <!-- /password -->               
                 </div> <!-- /login-fields -->
