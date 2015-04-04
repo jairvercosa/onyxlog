@@ -1,0 +1,49 @@
+<div class="container">
+    <ul class="mainnav">
+        <li class="{% if request.get_full_path == '/' %}active{% endif %}">
+            <a href="{% url 'core_index' %}">
+                <i class="icon-dashboard"></i><span>Início</span> 
+            </a>
+        </li>
+        <li class="dropdown {% if 'cadastros' in request.get_full_path %}active{% endif %}">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> 
+                <i class="icon-paste"></i><span>Cadastros</span> <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{% url 'cadastros.list_produto' %}"><i class="icon-shopping-cart"></i> Produtos</a></li>
+                <li><a href="{% url 'cadastros.list_grupoproduto' %}"><i class="icon-list-alt"></i> Grupo de Produtos</a></li>
+                <li><a href="{% url 'cadastros.list_unidade' %}"><i class="icon-tag"></i> Unidades de Medida</a></li>
+                <li><a href="{% url 'cadastros.list_planta' %}"><i class="icon-globe"></i> Plantas de Operação</a></li>
+            </ul>
+        </li>
+        <li class="dropdown {% if 'portaria' in request.get_full_path %}active{% endif %}">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> 
+                <i class="icon-home"></i><span>Portaria</span> <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{% url 'portaria.list_movimentovisitante' %}"><i class="icon-user"></i> Movimento de Visitantes</a></li>
+                <li><a href="{% url 'portaria.list_movimentoveiculo' %}"><i class="icon-truck"></i> Movimentos de Veículos</a></li>
+                <li><a href="{% url 'portaria.list_motivo' %}"><i class="icon-tag"></i> Motivos de Visita</a></li>
+            </ul>
+        </li>
+        <li class="dropdown {% if 'estoque' in request.get_full_path %}active{% endif %}">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> 
+                <i class="icon-bolt"></i><span>Estoque</span> <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{% url 'estoque.list_endereco' %}"><i class="icon-bookmark"></i> Endereços</a></li>
+                <li><a href="{% url 'estoque.list_saldo' %}"><i class="icon-th-large"></i> Saldos de Estoque</a></li>
+            </ul>
+        </li>
+        <li class="dropdown {% if 'etiquetas' in request.get_full_path %}active{% endif %}">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> 
+                <i class="icon-barcode"></i><span>Etiquetas</span> <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{% url 'etiqueta.etiqueta_produto' %}"><i class="icon-shopping-cart"></i> Produtos</a></li>
+                <li><a href="{% url 'etiqueta.etiqueta_endereco' %}"><i class="icon-bookmark"></i> Endereços</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<!-- /container --> 

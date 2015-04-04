@@ -37,7 +37,7 @@ var formVeiculo = {
 
         if(formVeiculo.id == 0){
             buttons = '\
-                <button class="btn btn-sm btn-danger btn-remove-ocupante"><i class="glyphicon glyphicon-remove"></i></button> \
+                <button class="btn btn-sm btn-danger btn-remove-ocupante"><i class="icon-remove"></i></button> \
             ';
 
             html = '\

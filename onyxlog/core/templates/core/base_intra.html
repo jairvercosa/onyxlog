@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% clear_breadcrumbs %}
+{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="span12">
+            <div>
+                {% block breadcrumbrender %}{% endblock %}
+            </div>
+            <div class="widget ">
+                <div class="widget-header">
+                {% block titleIntra %}
+                    <i class="icon-user"></i>
+                    <h3>Troque o Título e o Ícone</h3>
+                {% endblock %}
+                </div> <!-- /widget-header -->
+                <div class="widget-content">
+                    {% block mainIntra %}{% endblock %}
+                </div> <!-- /widget-content -->
+            </div> <!-- /widget -->
+        </div> <!-- /span12 -->
+    </div> <!-- /row -->
+{% endblock %}

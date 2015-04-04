@@ -1,13 +1,11 @@
-{% extends "base_list.html"%}
+{% extends 'core/base_list.html' %}
 {% load staticfiles %}
 {% load django_bootstrap_breadcrumbs %}
 
-{% block title %}Movimento de Veículos{% endblock %}
-{% block subtitle %}Lista de entradas e saídas de veículos{% endblock %}
-
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb "Portaria" "/portaria/" %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Portaria" "#" %}
     {% breadcrumb "Movimento de Veículos" "/portaria/movimento/veiculo/" %}
 {% endblock %}
 
@@ -15,31 +13,37 @@
     {% render_breadcrumbs %}
 {% endblock %}
 
-
-{% block tablelist %}
-<table cellpadding="0" cellspacing="0" border="0" class="table  table-striped table-hover datatable" id="gridlist" url-data-source="{% url 'portaria.list_json_movimentoveiculo' %}">
-    {% csrf_token %}
-    <thead>
-        <tr>
-            <th width="5%" >Planta</th>
-            <th width="10%" >Entrada</th>
-            <th width="5%"  >Hr</th>
-            <th width="10%" >Saída</th>
-            <th width="5%" class="no_sort">Hr</th>
-            <th width="10%" >Código</th>
-            <th width="15%" >Veículo</th>
-            <th width="10%" >Placa</th>
-            <th width="10%" >Nota</th>
-            <th width="10%" class="no_sort">Fornecedor</th>
-            <th width="5%" class="no_sort"></th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-    <tfoot></tfoot>
-</table>
+{% block titleIntra %}
+    <i class="icon-truck"></i>
+    <h3>{% block title %}Movimento de Veículos{% endblock %}</h3>
+    <button id="btnAddList" class="btn btn-sm btn-success"><i class="no-margin-left icon-plus"></i> Novo</button>
 {% endblock %}
-{% block jsblock %}
-    {{ block.super }}
+
+{% block tableList %}
+    <table cellpadding="0" cellspacing="0" border="0" class="table  table-striped table-hover datatable" id="gridlist" url-data-source="{% url 'portaria.list_json_movimentoveiculo' %}">
+        {% csrf_token %}
+        <thead>
+            <tr>
+                <th width="5%" >Planta</th>
+                <th width="10%" >Entrada</th>
+                <th width="5%"  >Hr</th>
+                <th width="10%" >Saída</th>
+                <th width="5%" class="no_sort">Hr</th>
+                <th width="10%" >Código</th>
+                <th width="15%" >Veículo</th>
+                <th width="7%" >Placa</th>
+                <th width="8%" >Nota</th>
+                <th width="10%" class="no_sort">Fornecedor</th>
+                <th width="10%" class="no_sort"></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot></tfoot>
+    </table>
+{% endblock %}
+
+{% block jsExtra %}
+    <script type="text/javascript" src="{% static 'core/js/grid.js' %}" ></script>
     <script type="text/javascript">
         $(document).ready(function(){
             grid.fnStartObject({
@@ -50,4 +54,5 @@
             });
         });
     </script>
+    <script type="text/javascript"> $('#btnAddList').bind('click',function(){ window.location.href = 'formulario/' }); </script>
 {% endblock %}

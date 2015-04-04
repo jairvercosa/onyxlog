@@ -1,42 +1,28 @@
-{% extends "base_form.html"%}
+{% extends 'core/base_form.html' %}
 {% load staticfiles %}
 {% load django_bootstrap_breadcrumbs %}
-{% load bootstrap_toolkit %}
-
-{% block title %}Usuário{% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb "Configurações" "/core/configuracoes/" %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Configurações" "#" %}
     {% breadcrumb "Usuários" "/acesso/usuarios/" %}
-
+    
     {% if object %}
-        {% breadcrumb form.first_name.value|add:' '|add:form.last_name.value "/" %}
+        {% breadcrumb form.first_name.value|add:' ' "/" %}
     {% else %}
         {% breadcrumb "Novo" "" %}
     {% endif %}
+
 {% endblock %}
 
 {% block breadcrumbrender %}
     {% render_breadcrumbs %}
 {% endblock %}
 
-
-{% block formRender %}
-    <div class="row">
-        <div class="col-lg-6 ">
-            <div class="response_form alert alert-dismissable"><span></span></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6 top-buffer-10">
-            <form class="form-horizontal" redirect_data="{% url 'acesso.list_usuario' %}" method="post" action="{{ request.get_full_path }}" id="formUsuarios" onSubmit="return false;">
-                {% csrf_token %}
-                {{ form|as_bootstrap }}
-                {% block button %}
-                    {{ block.super }}
-                {% endblock %}
-            </form>
-        </div>
-    </div>
+{% block titleIntra %}
+    <i class="icon-user"></i>
+    <h3>{% block title %}Usuários{% endblock %}</h3>
 {% endblock %}
+
+{% block redirectForm%}{% url 'acesso.list_usuario' %}{% endblock %}

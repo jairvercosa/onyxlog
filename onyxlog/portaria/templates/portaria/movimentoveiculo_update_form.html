@@ -1,13 +1,12 @@
-{% extends "base_form.html"%}
+{% extends 'core/base_form.html' %}
 {% load staticfiles %}
 {% load django_bootstrap_breadcrumbs %}
 {% load bootstrap_toolkit %}
 
-{% block title %}Movimento de Veículos{% endblock %}
-
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb "Portaria" "/portaria/" %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Portaria" "#" %}
     {% breadcrumb "Movimento de Veículos" "/portaria/movimento/veiculo/" %}
     {% breadcrumb "Saída de Veículo" "/" %}
 {% endblock %}
@@ -16,51 +15,57 @@
     {% render_breadcrumbs %}
 {% endblock %}
 
+{% block titleIntra %}
+    <i class="icon-truck"></i>
+    <h3>{% block title %}Movimento de Veículos{% endblock %}</h3>
+{% endblock %}
 
-{% block formRender %}
-    <div class="row">
-        <div class="col-lg-6 ">
-            <div class="response_form alert alert-dismissable"><span></span></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6 top-buffer-10">
-            <form class="form-horizontal" redirect_data="{% url 'portaria.list_movimentoveiculo' %}" method="post" action="{{ request.get_full_path }}" id="formSaidaVeiculo" onSubmit="return false;">
-                {% csrf_token %}
-                {{ form|as_bootstrap }}
-                {% block button %}
-                    <div class="control-group">
-                        <div class="col-lg-5 no-padding">
-                            {% if not object.saida %}
-                            <button type="submit" class="btn btn-sm btn-primary" id="btnSend"><i class="glyphicon glyphicon-transfer"></i>  Registrar Saída</button>
-                            {% endif %}
-                            <button class="btn btn-sm btn-outline btn-default" id="btnCancel"><i class="glyphicon glyphicon-arrow-left"></i> Voltar</button>
-                        </div>
-                    </div>
-                    <span class="ajaxLoading"><img src="{% static 'img/ajax-loader.gif' %}" /></span>
-                {% endblock %}
-            </form>
-        </div>
-        <div class="col-lg-6 top-buffer-10">
-            <fieldset>
-                <legend>Ocupantes do Veículo</legend>
-                <table class="table" id="table-ocupantes">
-                    <thead>
-                        <tr>
-                            <td width="20%">CPF</td>
-                            <td>Nome</td>
-                            <td width="30%">Empresa</td>
-                            <td width="10%"></td>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </fieldset>
-        </div>
+{% block mainIntra %}
+    <div class="div-form">
+        {% block formBlock %}
+        <form class="form-horizontal" redirect_data="{% url 'portaria.list_movimentoveiculo' %}" method="post" action="{{ request.get_full_path }}" id="formSaidaVeiculo" onSubmit="return false;">
+            {% csrf_token %}
+            <div class="row">
+                <div class="span6 ">
+                    <div class="response_form alert alert-dismissable"><span></span></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span5">
+                    {{ form|as_bootstrap }}
+                </div>
+                <div class="span6">
+                    <fieldset>
+                        <legend>Ocupantes do Veículo</legend>
+                        <table class="table" id="table-ocupantes">
+                            <thead>
+                                <tr>
+                                    <td width="20%">CPF</td>
+                                    <td>Nome</td>
+                                    <td width="30%">Empresa</td>
+                                    <td width="10%"></td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+            {% block buttonsForm %}
+                <button id="btnSend" class="btn btn-primary"><i class="icon-signout"></i> Registrar Saída</button> 
+                <button id="btnCancel" class="btn"><i class="icon-arrow-left"></i> Voltar</button>
+            {% endblock %}
+            </div>
+            <span class="ajaxLoading"><img src="{% static 'img/ajax-loader.gif' %}" /></span>
+
+        </form>
+        {% endblock %}
     </div>
 {% endblock %}
 
-{% block jsblock %}
+{% block jsExtra %}
     {{ block.super }}
     <script type="text/javascript">
         var veiculo_id = {{ object.pk }};

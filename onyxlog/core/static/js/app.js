@@ -125,6 +125,27 @@ var app = {
         monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
         nextText: 'Próximo',
         prevText: 'Anterior'
+    },
+
+    model : function(title, msg){
+        var strModel = '';
+        $('body').find('#msgApp').remove();
+        
+        strModel +='<div id="msgApp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+        strModel +='    <div class="modal-header">';
+        strModel +='        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
+        strModel +='        <h3>'+ title +'</h3>';
+        strModel +='    </div>';
+        strModel +='    <div class="modal-body">';
+        strModel +='        <p>'+ msg +'</p>';
+        strModel +='    </div>';
+        strModel +='    <div class="modal-footer">';
+        strModel +='        <button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>';
+        strModel +='    </div>';
+        strModel +='</div>';
+
+        $('body').append(strModel);
+        $('#msgApp').modal();
     }
 
 }

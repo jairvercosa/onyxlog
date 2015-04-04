@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load widget_tweaks %}
+<html lang="en">  
+<head>
+    <meta charset="utf-8">
+    <title>Login - OnyxLoc</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"> 
+    
+	<link href="{% static 'core/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'core/css/bootstrap-responsive.min.css' %}" rel="stylesheet" type="text/css" />
+
+	<link href="{% static 'core/css/font-awesome.css' %}" rel="stylesheet">
+    <!--<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">-->
+    
+	<link href="{% static 'core/css/style.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'core/css/pages/signin.css' %}" rel="stylesheet" type="text/css">
+
+	<style type="text/css">
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Open Sans Light'), local('OpenSans-Light'), url(http://themes.googleusercontent.com/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTaRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+        }
+    </style>
+
+</head>
+
+<body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="index.html">
+					OnyxLoc
+				</a>		
+			</div> <!-- /container -->
+		</div> <!-- /navbar-inner -->
+	</div> <!-- /navbar -->
+
+	<div class="account-container">	
+		<div class="content clearfix">
+			<form action="{{ request.get_full_path }}"  method="post">
+				{% csrf_token %}
+				<h1>Login</h1>		
+				<div class="login-fields">
+					<p>Entre com seu usuário e senha</p>
+					<div class="field">
+						<label for="username">Usuário</label>
+						{{ form.username |attr:"placeholder:Usuário"| add_class:"login username-field"}}
+						{{ form.username.errors }}
+					</div> <!-- /field -->
+					<div class="field">
+						<label for="password">Senha</label>
+						{{ form.password |attr:"placeholder:Senha"| add_class:"login password-field"}}
+						{{ form.password.errors }}
+					</div> <!-- /password -->				
+				</div> <!-- /login-fields -->
+				<div class="login-actions">
+					<button class="button btn btn-success btn-large">Entrar</button>
+				</div> <!-- .actions -->
+			</form>
+		</div> <!-- /content -->
+	</div> <!-- /account-container -->
+
+	<!--<div class="login-extra">
+		<a href="#">Esqueci minha senha</a>
+	</div>--> <!-- /login-extra -->
+
+
+	<script src="{% static 'core/js/jquery-1.7.2.min.js' %}"></script>
+	<script src="{% static 'core/js/bootstrap.js' %}"></script>
+	<script src="{% static 'core/js/signin.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,13 +1,11 @@
-{% extends "base_form.html"%}
+{% extends 'core/base_form.html' %}
 {% load staticfiles %}
 {% load django_bootstrap_breadcrumbs %}
-{% load bootstrap_toolkit %}
-
-{% block title %}Saldos{% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb "Estoque" "/estoque/" %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Estoque" "#" %}
     {% breadcrumb "Saldos" "/estoque/endereco/" %}
     {% breadcrumb form.quant.value "/" %}
 {% endblock %}
@@ -16,25 +14,13 @@
     {% render_breadcrumbs %}
 {% endblock %}
 
-{% block formRender %}
-    <div class="row">
-        <div class="col-lg-6 ">
-            <div class="response_form alert alert-dismissable"><span></span></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6 top-buffer-10">
-            <form class="form-horizontal" redirect_data="{% url 'estoque.list_saldo' %}" method="post" action="{{ request.get_full_path }}" id="formSaldo" onSubmit="return false;">
-                {% csrf_token %}
-                {{ form|as_bootstrap }}
-                {% block button %}
-                    {{ block.super }}
-                {% endblock %}
-            </form>
-        </div>
-    </div>
+{% block titleIntra %}
+    <i class="icon-bookmark"></i>
+    <h3>{% block title %}Saldos{% endblock %}</h3>
 {% endblock %}
-{% block jsblock %}
+
+{% block redirectForm%}{% url 'estoque.list_saldo' %}{% endblock %}
+{% block jsExtra %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}" ></script>
     <script type="text/javascript" src="{% static 'js/jquery.ui.combobox.js' %}" ></script>

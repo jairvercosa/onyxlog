@@ -1,13 +1,11 @@
-{% extends "base_form.html"%}
+{% extends 'core/base_form.html' %}
 {% load staticfiles %}
 {% load django_bootstrap_breadcrumbs %}
-{% load bootstrap_toolkit %}
-
-{% block title %}Movimento de Visitantes{% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb "Portaria" "/portaria/" %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Portaria" "#" %}
     {% breadcrumb "Movimento de Visitantes" "/portaria/movimento/visitante/" %}
     {% breadcrumb "Nova Entrada" "/portaria/movimento/visitante/formulario" %}
 {% endblock %}
@@ -16,33 +14,13 @@
     {% render_breadcrumbs %}
 {% endblock %}
 
-
-{% block formRender %}
-    <div class="row">
-        <div class="col-lg-6 ">
-            <div class="response_form alert alert-dismissable"><span></span></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6 top-buffer-10">
-            <form class="form-horizontal" redirect_data="{% url 'portaria.list_movimentovisitante' %}" method="post" action="{{ request.get_full_path }}" id="formEntradaVisitante" onSubmit="return false;">
-                {% csrf_token %}
-                {{ form|as_bootstrap }}
-                {% block button %}
-                <div class="control-group">
-                    <div class="col-lg-5 no-padding">
-                        <button type="submit" class="btn btn-sm btn-primary" id="btnSend"><i class="glyphicon glyphicon-ok"></i>  Salvar</button>
-                        <button class="btn btn-sm btn-outline btn-default" id="btnCancel"><i class="glyphicon glyphicon-arrow-left"></i> Voltar</button>
-                    </div>
-                </div>
-                <span class="ajaxLoading"><img src="{% static 'img/ajax-loader.gif' %}" /></span>
-                {% endblock %}
-            </form>
-        </div>
-    </div>
+{% block titleIntra %}
+    <i class="icon-user"></i>
+    <h3>{% block title %}Movimento de Visitantes{% endblock %}</h3>
 {% endblock %}
 
-{% block jsblock %}
+{% block redirectForm%}{% url 'portaria.list_movimentovisitante' %}{% endblock %}
+{% block jsExtra %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}" ></script>
     <script type="text/javascript" src="{% static 'js/jquery.ui.combobox.js' %}" ></script>

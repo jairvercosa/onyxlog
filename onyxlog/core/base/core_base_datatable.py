@@ -14,8 +14,8 @@ class CoreBaseDatatableView(BaseDatatableView):
         """
         if column == 'buttons' and self.url_base_form and self.use_buttons:
             sReturn = '<div class="action-buttons">'
-            sReturn +='     <a href="'+self.url_base_form+str(row.id)+'/" title="Editar" class="btnEdit"><i class="glyphicon glyphicon-pencil"></i> </a>'
-            sReturn +='     <a href="javascript:;" class="btnDel" alt="'+str(row.id)+'" title="Remover"><i class="glyphicon glyphicon-remove"></i> </a>'
+            sReturn +='     <a href="'+self.url_base_form+str(row.id)+'/" title="Editar" class="btn btn-small btn-info btnEdit"><i class="icon-edit"></i> </a>'
+            sReturn +='     <a href="javascript:;" class="btn btn-small btn-danger btnDel" alt="'+str(row.id)+'" title="Remover"><i class="icon-remove"></i> </a>'
             sReturn +='</div>'
             return sReturn
 

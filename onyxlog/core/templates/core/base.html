@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% clear_breadcrumbs %}
+{% endblock %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Onyxlog - {% block title %}{% endblock %}</title>
+    <meta name="description" content="OnyxLoc é uma plataforma para gestão de serviços e alocação de recursos de maneira fácil, intuitiva e móvel permitindo maior agilidade a sua equipe e precisão na medição dos serviços.!" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="{% static 'core/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'core/css/bootstrap-responsive.min.css' %}" rel="stylesheet">
+    <!--<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600"
+    rel="stylesheet">-->
+    <link href="{% static 'core/css/font-awesome.css' %}" rel="stylesheet">
+    {% block extraStyle %}{% endblock %}
+
+    <link href="{% static 'core/css/style.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'img/new_favicon.ico' %}" type="image/x-icon" />
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js' %}"></script>
+    <![endif]-->
+    <style type="text/css">
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Open Sans Light'), local('OpenSans-Light'), url(http://themes.googleusercontent.com/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTaRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            {% include 'core/partials/header.html' %}
+        </div>
+        <!-- /navbar-inner --> 
+    </div>
+    <!-- /navbar -->
+    <div class="subnavbar">
+        <div class="subnavbar-inner">
+            {% include 'core/partials/main_menu.html' %}
+        </div>
+        <!-- /subnavbar-inner --> 
+    </div>
+    <!-- /subnavbar -->
+    <div class="main">
+        <div class="main-inner">
+            <div class="container">
+                {% block main %}{% endblock %}
+            </div>
+            <!-- /container --> 
+        </div>
+        <!-- /main-inner --> 
+    </div>
+    <!-- /main -->
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="container">
+            {% block footerblock %}
+                <div class="row">
+                    <div class="span12"> &copy; 2014-2015 OnyxLog - Um produto <a href="http://www.onyxti.com.br/">OnyxTI</a> </div>
+                    <!-- /span12 --> 
+                </div>
+                <!-- /row --> 
+            {% endblock %}
+            </div>
+            <!-- /container --> 
+        </div>
+        <!-- /footer-inner --> 
+    </div>
+    <!-- /footer --> 
+    <!-- Le javascript
+    ================================================== --> 
+    <!-- Placed at the end of the document so the pages load faster --> 
+    {% block jsLibs %}
+        <script src="{% static 'core/js/jquery-1.7.2.min.js' %}"></script> 
+        <script src="{% static 'core/js/bootstrap.js' %}"></script>
+    {% endblock %}
+
+    <script src="{% static 'core/js/base.js' %}"></script> 
+    <script src="{% static 'js/app.js' %}"></script> 
+
+    {% block jsExtra %}{% endblock %}
+</body>
+</html>

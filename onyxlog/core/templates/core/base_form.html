@@ -1,0 +1,43 @@
+{% extends 'core/base_intra.html' %}
+{% load staticfiles %}
+{% load bootstrap_toolkit %}
+
+{% block extraStyle %}
+    <link rel="stylesheet" type="text/css" href="{% static 'libs/plugins/css/jquery-ui-1.10.4.custom.min.css' %}">
+{% endblock %}
+
+{% block mainIntra %}
+    <div class="div-form">
+        {% block formBlock %}
+        <form class="form-horizontal" redirect_data="{% block redirectForm%}{% endblock %}" method="post" action="{{ request.get_full_path }}" onSubmit="return false;"> 
+            {% csrf_token %}
+            <div class="row">
+                <div class="span6 ">
+                    <div class="response_form alert alert-dismissable"><span></span></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    {{ form|as_bootstrap }}
+                </div>
+            </div>
+            
+            <div class="form-actions">
+            {% block buttonsForm %}
+                <button id="btnSend" class="btn btn-primary"><i class="icon-ok"></i> Salvar</button> 
+                <button id="btnCancel" class="btn"><i class="icon-arrow-left"></i> Voltar</button>
+            {% endblock %}
+            </div>
+            <span class="ajaxLoading"><img src="{% static 'img/ajax-loader.gif' %}" /></span>
+
+        </form>
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block jsExtra %}
+    {{ block.super }}
+    <script src="{% static 'libs/plugins/js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.number.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'js/forms.js' %}" ></script>
+{% endblock %}
