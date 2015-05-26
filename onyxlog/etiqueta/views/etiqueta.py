@@ -225,7 +225,7 @@ class EtiquetaEndereco(CoreMixinLoginRequired, TemplateView, CoreMixinForm):
             for item in enderecos:
                 dataEnderecos.append({
                     "codigo": item.codigo,
-                    "planta": item.planta.nome,
+                    "planta": item.planta.nome if item.planta else '',
                 })
 
             request.session['dataEtiquetaEndereco'] = dataEnderecos

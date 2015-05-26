@@ -30,7 +30,7 @@ class EnderecoData(CoreMixinLoginRequired, CoreBaseDatatableView):
 
     def render_column(self, row, column):
         if column == 'planta':
-            sReturn = row.planta.codigo + ' - ' + row.planta.nome
+            sReturn = row.planta.codigo + ' - ' + row.planta.nome if row.planta else ''
             return sReturn
         else:
             return super(EnderecoData, self).render_column(row, column)
