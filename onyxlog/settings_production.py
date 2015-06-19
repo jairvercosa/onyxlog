@@ -6,7 +6,7 @@ SECRET_KEY = 'iczggaeda^c-kf!t4e0gotd8i^ts0a+_sy=_s7r$^ucu&o3yuv'
 DEBUG = False
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '177.55.104.109', 'bsm.onyxti.com.br', 'bsmlog.onyxti.com.br',]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '177.55.104.109', 'bsm.onyxti.com.br', 'bsmlog.onyxti.com.br','ubuntu-virtualbox']
 
 INSTALLED_APPS = (
     'django.contrib.admin',

@@ -9,6 +9,17 @@ def production():
     env.user = 'root'
     env.password = '2fC@+Zh%tx'
     env.settings = 'production'
+    env.server = 'production'
+    env.path = '/onyxlog'
+    env.port = 22
+
+def offlineProduction():
+    """Confgs da producao offline"""
+    env.hosts = ['ubuntu-VirtualBox']
+    env.user = 'onyxlog'
+    env.password = 'onyxlog!@#'
+    env.settings = 'production'
+    env.server = 'offline'
     env.path = '/onyxlog'
     env.port = 22
 
@@ -16,8 +27,8 @@ def deploy():
     """Deploy da ultima versao"""
     checkout_latest()
     symlink_current_release()
-    migrate()
-    restart_server()
+    #migrate()
+    #restart_server()
 
 def checkout_latest():
     """Atualiza ultimo codigo no repositorio"""
@@ -37,8 +48,10 @@ def symlink_current_release():
 
     run('cd %(path)s; rm -rf releases/current/*' % env)
     run('cd %(path)s; cp -R releases/%(release)s/onyxlog/* releases/current' % env)
-    run('cd %(path)s; cp -R releases/current/onyxlog/* onyxlog;' % env)
-    run('cd %(path)s/releases/current/onyxlog/; mv settings_%(settings)s.py %(path)s/onyxlog/settings.py' % env)
+    #run('cd %(path)s; sudo chmod 777 releases/current' % env)
+    run('cd %(path)s/releases/current/onyxlog/; mv settings_%(settings)s.py settings.py' % env)
+    run('cd %(path)s; cp -R releases/current/* /onyxlog;' % env)
+
     run('%(path)s/bin/python %(path)s/manage.py collectstatic' % env)
 
 def migrate():
@@ -53,11 +66,26 @@ def rollback():
 
 def restart_server():
     """Reinicia servicos"""
-    if env.settings!='testenv':
+    if env.server == 'offline':
+        with settings(warn_only=True):
+            run('sudo /etc/init.d/nginx stop')
+            run('sudo supervisorctl stop onyxlog')
+            run('sudo supervisorctl start onyxlog')
+            run('sudo /etc/init.d/nginx start')
+            
+            #run('rm -rf %(path)s/tmp/supervisor.sock' % env)
+            #run('rm -rf %(path)s/tmp/supervisord.pid' % env)
+            #run('sudo fuser -k 8002/tcp')
+            #run('rm -rf %(path)s/tmp/gunicorn.pid' % env)
+
+        #run('source %(path)s/bin/activate; cd %(path)s/onyxlog; supervisord;' % env)
+        
+    elif env.settings!='testenv':
         with settings(warn_only=True):
             run('/etc/init.d/nginx stop')
             run('kill -8 cat %(path)s/uwsgi_pid.pid' % env)
             run('rm -f %(path)s/onyxlog.sock' % env)
             
         run('source %(path)s/bin/activate; uwsgi --ini %(path)s/uwsgi.ini' % env)
+
     run('/etc/init.d/nginx start')
