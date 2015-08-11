@@ -4,6 +4,7 @@ from views.index import *
 from views.movimentovisitante import *
 from views.movimentoveiculo import *
 from views.motivo import *
+from views.report import *
 
 
 urlpatterns = patterns('',
@@ -36,4 +37,7 @@ urlpatterns = patterns('',
     url(r'^motivo/(?P<pk>\d+)/$', MotivoUpdateForm.as_view(),name='portaria.change_motivo'),
     url(r'^motivo/remove/(?P<pk>\d+)/$', MotivoDelete.as_view(),name='portaria.delete_motivo'),
     url(r'^motivo/$', MotivoList.as_view(), name='portaria.list_motivo'),
+
+    # relatorio
+    url(r'^report/$', ReportView.as_view(),name='portaria.report'),
 )

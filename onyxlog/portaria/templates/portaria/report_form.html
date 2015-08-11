@@ -1,0 +1,56 @@
+{% extends 'core/base_form.html' %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+{% load bootstrap_toolkit %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Portaria" "#" %}
+    {% breadcrumb "Relatório" "#" %}
+{% endblock %}
+
+{% block breadcrumbrender %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+{% block titleIntra %}
+    <i class="icon-truck"></i>
+    <h3>{% block title %}Relatório de Portaria{% endblock %}</h3>
+{% endblock %}
+
+{% block mainIntra %}
+    <div class="div-form">
+    {% block formBlock %}
+        <form class="form-horizontal" redirect_data="{% url 'portaria.report' %}" method="post" action="{{ request.get_full_path }}"> 
+            {% csrf_token %}
+            <div class="row">
+                <div class="span6 ">
+                    <div class="response_form alert alert-dismissable"><span></span></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    {{ form|as_bootstrap }}
+                </div>
+            </div>
+            
+            <div class="form-actions">
+            {% block buttonsForm %}
+                <button id="btnSend" type="submit" class="btn btn-primary"><i class="icon-print"></i> Gerar Relatório</button> 
+            {% endblock %}
+            </div>
+        </form>
+    {% endblock %}
+    </div>
+{% endblock %}
+
+{% block jsblock %}{% endblock %}
+{% block jsExtra %}
+    <script type="text/javascript" src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}" ></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('input[name="data_inicio"], input[name="data_fim"]').datepicker(app.datePickerBr);
+        });
+    </script>
+{% endblock %}
