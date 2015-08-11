@@ -24,6 +24,7 @@
                 <li><a href="{% url 'portaria.list_movimentovisitante' %}"><i class="icon-user"></i> Movimento de Visitantes</a></li>
                 <li><a href="{% url 'portaria.list_movimentoveiculo' %}"><i class="icon-truck"></i> Movimentos de Veículos</a></li>
                 <li><a href="{% url 'portaria.list_motivo' %}"><i class="icon-tag"></i> Motivos de Visita</a></li>
+                <li><a href="{% url 'portaria.report' %}"><i class="icon-print"></i> Relatório</a></li>
             </ul>
         </li>
         <li class="dropdown {% if 'estoque' in request.get_full_path %}active{% endif %}">
