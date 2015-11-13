@@ -120,7 +120,7 @@ class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinFo
                 'planta': request.POST.get('planta'),
             })
             
-            ocupate_form = MovimentoVisitanteForm(ocupante)
+            ocupate_form = MovimentoVisitanteForm(ocupante, request=request)
             if not ocupate_form.is_valid():
                 return self.render_to_json_reponse(
                     context={
@@ -146,11 +146,18 @@ class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinFo
                 cpf = ocupante['cpf'],
                 nome = ocupante['nome'],
                 empresa = ocupante['empresa'],
+                entrada = self.object.entrada,
+                entrada_hora = self.object.entrada_hora,
                 veiculo = self.object,
                 liberado_por = self.object.liberado_por,
                 obs = self.object.obs,
                 planta = Planta.objects.get(pk=ocupante['planta']),
             )
+
+            if self.object.saida:
+                visitante.saida = self.object.saida
+                visitante.saida_hora = self.object.saida_hora
+
             visitante.save()
             dataToLabel.append(visitante.pk)
 
@@ -163,7 +170,7 @@ class MovimentoVeiculoCreateForm(CoreMixinLoginRequired, CreateView, CoreMixinFo
             status=200
         )
 
-class MovimentoVeiculoUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm):
+class MovimentoVeiculoUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm, CoreMixinPassRequestForm):
     """
     Formulário de criação
     """
@@ -175,7 +182,7 @@ class MovimentoVeiculoUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinFo
     def get_form_kwargs(self):
         kwargs = super(MovimentoVeiculoUpdateForm, self).get_form_kwargs()
         if hasattr(self, 'object'):
-            if self.object.entrada:
+            if self.object.entrada and not self.object.saida:
                 kwargs.update({
                     'initial': {
                         "saida": datetime.date.today(),
@@ -187,25 +194,37 @@ class MovimentoVeiculoUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinFo
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.registerExit():
-            for visitante in self.object.ocupantes.all():
-                visitante.registerExit()
 
-            return self.render_to_json_reponse(
-                context={
-                    'success':True, 
-                    'message': 'Registro salvo com sucesso...'
-                },
-                status=200
-            )
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)   
+        if form.is_valid():
+            return self.form_valid(form)
         else:
-            return self.render_to_json_reponse(
-                context={
-                    'success':False, 
-                    'message': 'Não foi possível realizar a saída do veículo'
-                },
-                status=400
-            )
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        super(MovimentoVeiculoUpdateForm, self).form_valid(form)
+        visitantes = self.object.ocupantes.all()
+        visitantes.update(
+            saida=self.object.saida,
+            saida_hora=self.object.saida_hora)
+        
+        return self.render_to_json_reponse(
+            context={
+                'success':True, 
+                'message': 'Registro salvo com sucesso...'
+            },
+            status=200
+        )
+
+    def form_invalid(self, form):
+        return self.render_to_json_reponse(
+            context={
+                'success':False, 
+                'message': 'Não foi possível realizar a saída do veículo'
+            },
+            status=400
+        )
 
 class MovimentoVeiculoDelete(CoreMixinLoginRequired, CoreMixinDel):
     """

@@ -69,20 +69,14 @@ class Movimento(models.Model):
         default=1
     )
 
-    def registerExit(self):
-        if not self.saida:
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.codigo = str(self.entrada.year) + str(self.entrada.month) + str(self.entrada.day)
+            self.codigo = self.codigo + str(self.entrada_hora.hour) + str(self.entrada_hora.minute) + str(self.entrada_hora.second)
+        elif not self.saida:
             self.saida = datetime.datetime.now()
             self.saida_hora = datetime.datetime.now().time()
             self.save()
-
-        return True
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.entrada = datetime.date.today()
-            self.entrada_hora = datetime.datetime.now().time()
-            self.codigo = str(self.entrada.year) + str(self.entrada.month) + str(self.entrada.day)
-            self.codigo = self.codigo + str(self.entrada_hora.hour) + str(self.entrada_hora.minute) + str(self.entrada_hora.second)
 
         super(Movimento, self).save(*args, **kwargs)
 

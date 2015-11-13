@@ -107,7 +107,7 @@ class MovimentoVisitanteCreateForm(CoreMixinLoginRequired, CreateView, CoreMixin
         
         return self.render_to_json_reponse(context={'success':True, 'message': 'Registro salvo com sucesso...'},status=200)
 
-class MovimentoVisitanteUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm):
+class MovimentoVisitanteUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinForm, CoreMixinPassRequestForm):
     """
     Formulário de criação
     """
@@ -119,7 +119,7 @@ class MovimentoVisitanteUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixin
     def get_form_kwargs(self):
         kwargs = super(MovimentoVisitanteUpdateForm, self).get_form_kwargs()
         if hasattr(self, 'object'):
-            if self.object.entrada:
+            if self.object.entrada and not self.object.saida:
                 kwargs.update({
                     'initial': {
                         "saida": datetime.date.today(),
@@ -131,22 +131,33 @@ class MovimentoVisitanteUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixin
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.registerExit():
-            return self.render_to_json_reponse(
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)   
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        super(MovimentoVisitanteUpdateForm, self).form_valid(form)
+        return self.render_to_json_reponse(
                 context={
                     'success':True, 
                     'message': 'Registro salvo com sucesso...'
                 },
                 status=200
             )
-        else:
-            return self.render_to_json_reponse(
-                context={
-                    'success':False, 
-                    'message': 'Não foi possível realizar a saída do visitante...'
-                },
-                status=400
-            )
+
+    def form_invalid(self, form):
+        return self.render_to_json_reponse(
+            context={
+                'success':False, 
+                'message': 'Não foi possível realizar a saída do visitante...'
+            },
+            status=400
+        )
+
 
 class MovimentoVisitanteDelete(CoreMixinLoginRequired, CoreMixinDel):
     """

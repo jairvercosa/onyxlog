@@ -54,7 +54,9 @@
             
             <div class="form-actions">
             {% block buttonsForm %}
+                {% if not object.saida %}
                 <button id="btnSend" class="btn btn-primary"><i class="icon-signout"></i> Registrar Saída</button> 
+                {% endif %}
                 <button id="btnCancel" class="btn"><i class="icon-arrow-left"></i> Voltar</button>
             {% endblock %}
             </div>

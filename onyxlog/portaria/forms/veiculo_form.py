@@ -13,10 +13,11 @@ class MovimentoVeiculoForm(forms.ModelForm):
 
         super(MovimentoVeiculoForm, self).__init__(*args, **kwargs)
 
-        self.fields['entrada'].widget.attrs['disabled'] = True
-        self.fields['entrada_hora'].widget.attrs['disabled'] = True
-        self.fields['saida'].widget.attrs['disabled'] = True
-        self.fields['saida_hora'].widget.attrs['disabled'] = True
+        if not request.user.is_superuser:
+            self.fields['entrada'].widget.attrs['disabled'] = True
+            self.fields['entrada_hora'].widget.attrs['disabled'] = True
+            self.fields['saida'].widget.attrs['disabled'] = True
+            self.fields['saida_hora'].widget.attrs['disabled'] = True
 
         if request:
             if hasattr(request.user, 'perfil'):
@@ -30,7 +31,12 @@ class MovimentoVeiculoForm(forms.ModelForm):
 class MovimentoVeiculoUpdateForm(MovimentoVeiculoForm):
 
     def __init__(self, *args, **kwargs):
+        if 'request' in kwargs:
+            request = kwargs.get('request')
+        else:
+            request = None
         super(MovimentoVeiculoUpdateForm, self).__init__(*args, **kwargs)
 
-        for field in self.fields:
-            self.fields[field].widget.attrs['disabled'] = True
+        if not request.user.is_superuser:
+            for field in self.fields:
+                self.fields[field].widget.attrs['disabled'] = True
