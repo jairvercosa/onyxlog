@@ -71,6 +71,10 @@ class Movimento(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pk:
+            if not self.entrada:
+                self.entrada = datetime.datetime.now()
+                self.entrada_hora = datetime.datetime.now().time()
+
             self.codigo = str(self.entrada.year) + str(self.entrada.month) + str(self.entrada.day)
             self.codigo = self.codigo + str(self.entrada_hora.hour) + str(self.entrada_hora.minute) + str(self.entrada_hora.second)
         elif not self.saida:
