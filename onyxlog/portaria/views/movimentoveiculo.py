@@ -195,12 +195,42 @@ class MovimentoVeiculoUpdateForm(CoreMixinLoginRequired, UpdateView, CoreMixinFo
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
 
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)   
-        if form.is_valid():
-            return self.form_valid(form)
+        if self.request.user.is_superuser:
+            form_class = self.get_form_class()
+            form = self.get_form(form_class)   
+            if form.is_valid():
+                return self.form_valid(form)
+            else:
+                return self.form_invalid(form)
         else:
-            return self.form_invalid(form)
+            return self.exitmove()
+
+    def exitmove(self):
+        try:
+            self.object.saida = datetime.date.today()
+            self.object.saida_hora = datetime.datetime.now().time()
+            self.object.save()
+
+            visitantes = self.object.ocupantes.all()
+            visitantes.update(
+                saida=self.object.saida,
+                saida_hora=self.object.saida_hora)
+
+            return self.render_to_json_reponse(
+                context={
+                    'success':True, 
+                    'message': 'Registro salvo com sucesso...'
+                },
+                status=200
+            )
+        except:
+            return self.render_to_json_reponse(
+                context={
+                    'success':False, 
+                    'message': 'Não foi possível realizar a saída do veículo'
+                },
+                status=400
+            ) 
 
     def form_valid(self, form):
         super(MovimentoVeiculoUpdateForm, self).form_valid(form)
